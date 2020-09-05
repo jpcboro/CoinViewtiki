@@ -1,10 +1,17 @@
 ﻿using System;
+using Newtonsoft.Json;
+
 namespace CoinViewTiki.Models
 {
     public class Coin
     {
-        public string id { get; set; }
-        public string symbol { get; set; }
-        public string name { get; set; }
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
+        
+        [JsonProperty(PropertyName = "symbol")]
+        public string Symbol { get; set; }
+      
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; }
     }
 }

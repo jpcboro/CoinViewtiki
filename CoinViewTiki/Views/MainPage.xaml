@@ -1,18 +1,54 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              x:Class="CoinViewTiki.MainPage">
  <ContentPage.Content>
-     <CollectionView x:Name="coinsCollectionView"
-                     SelectionMode="Single">
-         <CollectionView.ItemTemplate>
+     <ListView x:Name="coinListView"
+               IsGroupingEnabled="True"
+               GroupDisplayBinding="{Binding Key}"
+               GroupShortNameBinding="{Binding Key}"
+               HasUnevenRows="True"
+               android:ListView.IsFastScrollEnabled="True">
+         <ListView.GroupHeaderTemplate>
              <DataTemplate>
-                 <Grid>
-                     <Label Text="{Binding name}"></Label>
-                 </Grid>
+                 <ViewCell Height="25">
+                     <StackLayout VerticalOptions="FillAndExpand" 
+                                  Padding="5"
+                                  BackgroundColor="Aquamarine">
+                         <Label Text="{Binding Key}" 
+                                TextColor="Coral" 
+                                VerticalOptions="Center"/>
+                     </StackLayout>
+                 </ViewCell>
              </DataTemplate>
-         </CollectionView.ItemTemplate>
+         </ListView.GroupHeaderTemplate>
+
+             <ListView.ItemTemplate>
+                 <DataTemplate>
+                     <TextCell Text="{Binding Name}"></TextCell>
+                 </DataTemplate>
+             </ListView.ItemTemplate>
          
-     </CollectionView>
+     </ListView>
+     <!-- <CollectionView x:Name="coinsCollectionView" -->
+     <!--                 SelectionMode="Single" -->
+     <!--                 IsGrouped="True"> -->
+     <!--     <CollectionView.GroupHeaderTemplate> -->
+     <!--             <DataTemplate> -->
+     <!--                 <StackLayout BackgroundColor="Aquamarine" VerticalOptions="FillAndExpand"> -->
+     <!--                     <Label Text="{Binding Key}" TextColor="DarkOrange"></Label> -->
+     <!--                 </StackLayout> -->
+     <!--             </DataTemplate> -->
+     <!--         </CollectionView.GroupHeaderTemplate> -->
+     <!--     <CollectionView.ItemTemplate> -->
+     <!--         <DataTemplate> -->
+     <!--             <Grid> -->
+     <!--                 <Label Text="{Binding name}"></Label> -->
+     <!--             </Grid> -->
+     <!--         </DataTemplate> -->
+     <!--     </CollectionView.ItemTemplate> -->
+     <!--      -->
+     <!-- </CollectionView> -->
  </ContentPage.Content>
 </ContentPage>
