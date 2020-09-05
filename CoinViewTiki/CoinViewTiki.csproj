@@ -23,4 +23,15 @@
     <Folder Include="Views\" />
     <Folder Include="Services\" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Views\CoinDetailPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator></Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\CoinDetailPage.xaml.cs">
+      <DependentUpon>CoinDetailPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

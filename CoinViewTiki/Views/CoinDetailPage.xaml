@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CoinViewTiki.Views.CoinDetailPage">
+    <ContentPage.Content>
+        <StackLayout Spacing="10">
+          <Image x:Name="img" HeightRequest="100" WidthRequest="100"/>
+          <Label x:Name="lblName"/>
+          <Label x:Name="lblSymbol"/>
+          <Label x:Name="lblPrice"/>
+          <ScrollView>
+              <Label x:Name="lblDesc"/>
+          </ScrollView>
+          
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

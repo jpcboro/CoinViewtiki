@@ -10,5 +10,8 @@ namespace CoinViewTiki.Services
         [Get("/api/v3/coins/list")]
         Task<List<Coin>> GetCoins();
 
+        [Get("/api/v3/coins/{id}")]
+        Task<CoinData> GetCoinData(string id);
+
     }
 }

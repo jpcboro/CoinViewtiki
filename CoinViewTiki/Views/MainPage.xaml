@@ -9,7 +9,8 @@
                GroupDisplayBinding="{Binding Key}"
                GroupShortNameBinding="{Binding Key}"
                HasUnevenRows="True"
-               android:ListView.IsFastScrollEnabled="True">
+               android:ListView.IsFastScrollEnabled="True"
+               ItemSelected="CoinListView_OnItemSelected">
          <ListView.GroupHeaderTemplate>
              <DataTemplate>
                  <ViewCell Height="25">

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CoinViewTiki.Models;
 using CoinViewTiki.Services;
+using CoinViewTiki.Views;
 using MvvmHelpers;
 using Refit;
 using Xamarin.Forms;
@@ -21,7 +22,11 @@ namespace CoinViewTiki
         public MainPage()
         {
             InitializeComponent();
+            
+            apiResponse = RestService.For<ICoinGeckoAPI>("https://api.coingecko.com/");
         }
+
+        public ICoinGeckoAPI apiResponse { get; set; }
 
         protected override async void OnAppearing()
         {
@@ -34,7 +39,7 @@ namespace CoinViewTiki
     
         private async Task GetCoins()
         {
-            var apiResponse = RestService.For<ICoinGeckoAPI>("https://api.coingecko.com/");
+           
             var coins = await apiResponse.GetCoins();
             var sortedCoins = from item in coins
                 orderby item.Name
@@ -51,6 +56,15 @@ namespace CoinViewTiki
 
         }
 
-     
+
+        private async void CoinListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            var selectedCoin = e.SelectedItem as Coin;
+
+            var coinData = await apiResponse.GetCoinData(selectedCoin.Id);
+
+            Navigation.PushAsync(new CoinDetailPage(coinData));
+
+        }
     }
 }
