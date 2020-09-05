@@ -2,15 +2,19 @@
 
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CoinViewTiki.Views.CoinDetailPage">
+             x:Class="CoinViewTiki.Views.CoinDetailPage"
+             >
     <ContentPage.Content>
-        <StackLayout Spacing="10">
-          <Image x:Name="img" HeightRequest="100" WidthRequest="100"/>
-          <Label x:Name="lblName"/>
-          <Label x:Name="lblSymbol"/>
-          <Label x:Name="lblPrice"/>
-          <ScrollView>
-              <Label x:Name="lblDesc"/>
+        <StackLayout Spacing="10" Padding="10">
+          <Image x:Name="img" Source="{Binding CoinDetails.image.thumb}" Aspect="AspectFit" HeightRequest="50" WidthRequest="50"/>
+          <Label x:Name="lblName" Text="{Binding CoinDetails.Name}"/>
+          <Label x:Name="lblSymbol" Text="{Binding CoinDetails.Symbol}"/>
+          <Label x:Name="lblPrice" Text="{Binding CoinDetails.market_data.current_price.usd, StringFormat='${0}'}"/>
+          <ScrollView >
+              <Label x:Name="lblDesc" 
+                     Text="{Binding CoinDetails.description.en}" 
+                     HorizontalOptions="FillAndExpand" 
+                     VerticalOptions="FillAndExpand"/>
           </ScrollView>
           
 

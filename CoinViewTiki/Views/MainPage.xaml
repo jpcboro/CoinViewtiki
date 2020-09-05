@@ -2,28 +2,40 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:local="clr-namespace:CoinViewTiki.Behaviors"
              x:Class="CoinViewTiki.MainPage">
  <ContentPage.Content>
-     <ListView x:Name="coinListView"
-               IsGroupingEnabled="True"
-               GroupDisplayBinding="{Binding Key}"
-               GroupShortNameBinding="{Binding Key}"
-               HasUnevenRows="True"
-               android:ListView.IsFastScrollEnabled="True"
-               ItemSelected="CoinListView_OnItemSelected">
-         <ListView.GroupHeaderTemplate>
-             <DataTemplate>
-                 <ViewCell Height="25">
-                     <StackLayout VerticalOptions="FillAndExpand" 
-                                  Padding="5"
-                                  BackgroundColor="Aquamarine">
-                         <Label Text="{Binding Key}" 
-                                TextColor="Coral" 
-                                VerticalOptions="Center"/>
-                     </StackLayout>
-                 </ViewCell>
-             </DataTemplate>
-         </ListView.GroupHeaderTemplate>
+     <StackLayout>
+         <SearchBar x:Name="SearchBar"
+                    Placeholder="Search"
+                    SearchCommand="{Binding SearchCommand}"
+                    SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}"
+                    Text="{Binding SearchText, Mode=TwoWay}">
+             <SearchBar.Behaviors>
+                 <local:SearchTextChangedBehavior />
+             </SearchBar.Behaviors>
+         </SearchBar>
+         <ListView x:Name="coinListView"
+                   ItemsSource="{Binding Coins}"
+                   IsGroupingEnabled="True"
+                   GroupDisplayBinding="{Binding Key}"
+                   GroupShortNameBinding="{Binding Key}"
+                   HasUnevenRows="True"
+                   android:ListView.IsFastScrollEnabled="True"
+                   ItemSelected="CoinListView_OnItemSelected">
+             <ListView.GroupHeaderTemplate>
+                 <DataTemplate>
+                     <ViewCell Height="25">
+                         <StackLayout VerticalOptions="FillAndExpand" 
+                                      Padding="5"
+                                      BackgroundColor="Aquamarine">
+                             <Label Text="{Binding Key}" 
+                                    TextColor="Coral" 
+                                    VerticalOptions="Center"/>
+                         </StackLayout>
+                     </ViewCell>
+                 </DataTemplate>
+             </ListView.GroupHeaderTemplate>
 
              <ListView.ItemTemplate>
                  <DataTemplate>
@@ -31,7 +43,9 @@
                  </DataTemplate>
              </ListView.ItemTemplate>
          
-     </ListView>
+         </ListView>
+     </StackLayout>
+    
      <!-- <CollectionView x:Name="coinsCollectionView" -->
      <!--                 SelectionMode="Single" -->
      <!--                 IsGrouped="True"> -->

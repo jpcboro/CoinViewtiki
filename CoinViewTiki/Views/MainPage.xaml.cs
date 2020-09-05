@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CoinViewTiki.Models;
 using CoinViewTiki.Services;
+using CoinViewTiki.ViewModels;
 using CoinViewTiki.Views;
 using MvvmHelpers;
 using Refit;
@@ -24,7 +25,15 @@ namespace CoinViewTiki
             InitializeComponent();
             
             apiResponse = RestService.For<ICoinGeckoAPI>("https://api.coingecko.com/");
+            
+            mainVM = new MainPageViewModel(apiResponse);
+           
+            BindingContext = mainVM;
+
+            
         }
+
+        public MainPageViewModel mainVM { get; set; }
 
         public ICoinGeckoAPI apiResponse { get; set; }
 
@@ -32,7 +41,9 @@ namespace CoinViewTiki
         {
             base.OnAppearing();
 
-          await  GetCoins();
+          // await  GetCoins();
+
+          // await mainVM.GetCoinList();
 
         }
 
@@ -63,7 +74,7 @@ namespace CoinViewTiki
 
             var coinData = await apiResponse.GetCoinData(selectedCoin.Id);
 
-            Navigation.PushAsync(new CoinDetailPage(coinData));
+            await Navigation.PushAsync(new CoinDetailPage(coinData));
 
         }
     }
