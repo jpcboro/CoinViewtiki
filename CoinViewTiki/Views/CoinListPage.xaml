@@ -6,7 +6,8 @@
              xmlns:prism="http://prismlibrary.com"
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-             xmlns:converter="clr-namespace:CoinViewTiki"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="True"
              x:Class="CoinViewTiki.CoinListPage">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
@@ -14,17 +15,43 @@
         </OnPlatform>
     </ContentPage.Padding>
     <ContentPage.Content>
-        
-            <StackLayout>
-                         <SearchBar x:Name="SearchBar"
-                                    Placeholder="Search"
-                                    SearchCommand="{Binding SearchCommand}"
-                                    SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}"
-                                    Text="{Binding SearchText, Mode=TwoWay}">
-                             <SearchBar.Behaviors>
-                                 <local:SearchTextChangedBehavior />
-                             </SearchBar.Behaviors>
-                         </SearchBar>
+        <StackLayout Padding="0" BackgroundColor="Purple">
+            <StackLayout.Background>
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="1,0">
+                    <GradientStop Color="#4E3775"
+                                  Offset="0.1"/>
+                    <GradientStop Color="#8750E6"
+                                  Offset="1.0"/>
+                </LinearGradientBrush>
+            </StackLayout.Background>
+            <StackLayout Padding="0,50,0,0">
+                <Label Text="Coin ViewTiki" 
+                       FontFamily="ProximaNovaBold" 
+                       FontSize="27"
+                       HorizontalOptions="CenterAndExpand" 
+                       VerticalOptions="FillAndExpand" TextColor="White"/>
+            </StackLayout>
+            
+            <StackLayout Padding="0,10,0,0">
+                <Frame CornerRadius="40"  
+                       BackgroundColor="White" 
+                       HorizontalOptions="CenterAndExpand" 
+                       VerticalOptions="StartAndExpand" 
+                       HeightRequest="50" 
+                       Margin="10,0,10,0"
+                       HasShadow="True">
+                    <SearchBar x:Name="SearchBar"
+                               Placeholder="Search"
+                               SearchCommand="{Binding SearchCommand}"
+                               SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}"
+                               Text="{Binding SearchText, Mode=TwoWay}">
+                        <SearchBar.Behaviors>
+                            <local:SearchTextChangedBehavior />
+                        </SearchBar.Behaviors>
+                    </SearchBar>
+                </Frame>
+              
                          <ActivityIndicator HorizontalOptions="Center"
                                             IsRunning="{Binding IsRunning}"
                                             IsVisible="{Binding IsRunning}"
@@ -36,9 +63,8 @@
                        GroupShortNameBinding="{Binding Key}"
                        HasUnevenRows="True"
                        android:ListView.IsFastScrollEnabled="True"
-                       SeparatorVisibility="None"
-                       BackgroundColor="White"
-                       >
+                       SeparatorVisibility="Default"
+                       Margin="5,0,5,0">
                  <ListView.Behaviors>
                      <prism:EventToCommandBehavior EventName="ItemTapped"
                                                    Command="{Binding ItemTappedCommand}"
@@ -49,9 +75,10 @@
                          <ViewCell Height="50">
                              <StackLayout VerticalOptions="FillAndExpand"
                                           Padding="10"
-                                          BackgroundColor="White">
+                                          BackgroundColor="#B1E3AC">
                                  <Label Text="{Binding Key}"
                                         Style="{StaticResource listHeaderStyle}"
+                                        TextColor="#5A9917"
                                         VerticalOptions="Center"/>
                              </StackLayout>
                          </ViewCell>
@@ -61,7 +88,7 @@
                      <DataTemplate>
                          <ViewCell Height="90">
                              <Grid Margin="0,0,0,5">
-                                 <Grid ColumnSpacing="10" Padding="5" BackgroundColor="Azure">
+                                 <Grid ColumnSpacing="10" Padding="5" BackgroundColor="White">
                                      <Grid.ColumnDefinitions>
                                          <ColumnDefinition Width="70"/>
                                          <ColumnDefinition Width="*"/>
@@ -77,7 +104,7 @@
                                                 LineBreakMode="NoWrap"
                                                 Style="{StaticResource listSymbolStyle}"/>
                                      </yummy:PancakeView>
-                                     <StackLayout BackgroundColor="Azure" Grid.Column="1" Padding="0,5,0,0">
+                                     <StackLayout Grid.Column="1" Padding="0,5,0,0">
                                          <Label Text="{Binding Name}"
                                                 Style="{StaticResource listNameStyle}"/>
                                          <Label Text="{Binding Symbol}"
@@ -93,6 +120,8 @@
          
              </ListView>
          </StackLayout>
+        </StackLayout>
+          
             
         
     </ContentPage.Content>

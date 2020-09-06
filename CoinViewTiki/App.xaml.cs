@@ -27,7 +27,7 @@ namespace CoinViewTiki
 
         protected override async void OnInitialized()
         {
-            // Device.SetFlags(new[] { "Brush_Experimental" });
+            Device.SetFlags(new[] { "Brush_Experimental" });
 
             InitializeComponent();
 
