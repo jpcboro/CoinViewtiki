@@ -5,10 +5,25 @@
              x:Class="CoinViewTiki.App">
     <Application.Resources>
         <ResourceDictionary>
+            <Style x:Key="listHeaderStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="ProximaNovaBold"/>
+                <Setter Property="TextColor" Value="#424148"/>
+                <Setter Property="FontSize" Value="25"></Setter>
+            </Style>
             <Style x:Key="listNameStyle" TargetType="Label">
                 <Setter Property="FontFamily" Value="ProximaNovaBold"/>
-                <Setter Property="TextColor" Value="Brown"/>
-                <Setter Property="FontSize" Value="30"></Setter>
+                <Setter Property="TextColor" Value="#424148"/>
+                <Setter Property="FontSize" Value="20"></Setter>
+            </Style>
+            <Style x:Key="listDetailStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="ProximaNovaReg"/>
+                <Setter Property="TextColor" Value="#797780"/>
+                <Setter Property="FontSize" Value="15"></Setter>
+            </Style>
+            <Style x:Key="listSymbolStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="ProximaNovaReg"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="FontSize" Value="30"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

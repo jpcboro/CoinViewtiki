@@ -3,31 +3,32 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:CoinViewTiki.Behaviors"
-             Visual="Material"
              xmlns:prism="http://prismlibrary.com"
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:converter="clr-namespace:CoinViewTiki"
              x:Class="CoinViewTiki.CoinListPage">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="0,20,0,0" />
+            <On Platform="iOS" Value="0,30,0,0" />
         </OnPlatform>
     </ContentPage.Padding>
     <ContentPage.Content>
-        <StackLayout>
-             <SearchBar x:Name="SearchBar"
-                    Placeholder="Search"
-                    SearchCommand="{Binding SearchCommand}"
-                    SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}"
-                    Text="{Binding SearchText, Mode=TwoWay}">
-             <SearchBar.Behaviors>
-                 <local:SearchTextChangedBehavior />
-             </SearchBar.Behaviors>
-         </SearchBar>
-         <StackLayout>
-             <ActivityIndicator HorizontalOptions="Center"
-                                IsRunning="{Binding IsRunning}"
-                                IsVisible="{Binding IsRunning}"
-                                Color="Orange"/>
+        
+            <StackLayout>
+                         <SearchBar x:Name="SearchBar"
+                                    Placeholder="Search"
+                                    SearchCommand="{Binding SearchCommand}"
+                                    SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}"
+                                    Text="{Binding SearchText, Mode=TwoWay}">
+                             <SearchBar.Behaviors>
+                                 <local:SearchTextChangedBehavior />
+                             </SearchBar.Behaviors>
+                         </SearchBar>
+                         <ActivityIndicator HorizontalOptions="Center"
+                                            IsRunning="{Binding IsRunning}"
+                                            IsVisible="{Binding IsRunning}"
+                                            Color="Orange"/>
              <ListView x:Name="coinListView"
                        ItemsSource="{Binding Coins}"
                        IsGroupingEnabled="True"
@@ -35,6 +36,8 @@
                        GroupShortNameBinding="{Binding Key}"
                        HasUnevenRows="True"
                        android:ListView.IsFastScrollEnabled="True"
+                       SeparatorVisibility="None"
+                       BackgroundColor="White"
                        >
                  <ListView.Behaviors>
                      <prism:EventToCommandBehavior EventName="ItemTapped"
@@ -43,12 +46,12 @@
                  </ListView.Behaviors>
                  <ListView.GroupHeaderTemplate>
                      <DataTemplate>
-                         <ViewCell Height="25">
+                         <ViewCell Height="50">
                              <StackLayout VerticalOptions="FillAndExpand"
-                                          Padding="5"
-                                          BackgroundColor="Aquamarine">
+                                          Padding="10"
+                                          BackgroundColor="White">
                                  <Label Text="{Binding Key}"
-                                        TextColor="Coral"
+                                        Style="{StaticResource listHeaderStyle}"
                                         VerticalOptions="Center"/>
                              </StackLayout>
                          </ViewCell>
@@ -56,11 +59,33 @@
                  </ListView.GroupHeaderTemplate>
                  <ListView.ItemTemplate>
                      <DataTemplate>
-                         <ViewCell>
-                             <Frame HasShadow="True">
-                                 <Label Text="{Binding Name}"
-                                        Style="{StaticResource listNameStyle}"/>
-                             </Frame>
+                         <ViewCell Height="90">
+                             <Grid Margin="0,0,0,5">
+                                 <Grid ColumnSpacing="10" Padding="5" BackgroundColor="Azure">
+                                     <Grid.ColumnDefinitions>
+                                         <ColumnDefinition Width="70"/>
+                                         <ColumnDefinition Width="*"/>
+                                         <ColumnDefinition Width="Auto"/>
+                                     </Grid.ColumnDefinitions>
+                                     <yummy:PancakeView CornerRadius="10" 
+                                                        IsClippedToBounds="True" 
+                                                        HeightRequest="35" 
+                                                        WidthRequest="35"
+                                                        BackgroundColor="#74c21e"
+                                                        Padding="10">
+                                         <Label Text="{Binding Symbol}"
+                                                LineBreakMode="NoWrap"
+                                                Style="{StaticResource listSymbolStyle}"/>
+                                     </yummy:PancakeView>
+                                     <StackLayout BackgroundColor="Azure" Grid.Column="1" Padding="0,5,0,0">
+                                         <Label Text="{Binding Name}"
+                                                Style="{StaticResource listNameStyle}"/>
+                                         <Label Text="{Binding Symbol}"
+                                                Style="{StaticResource listDetailStyle}"/>
+                                     </StackLayout>
+                                
+                                 </Grid>
+                             </Grid>
                          </ViewCell>
                      </DataTemplate>
                  
@@ -68,6 +93,7 @@
          
              </ListView>
          </StackLayout>
-        </StackLayout>
+            
+        
     </ContentPage.Content>
 </ContentPage>
