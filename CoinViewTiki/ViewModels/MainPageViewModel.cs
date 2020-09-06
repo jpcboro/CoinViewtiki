@@ -25,64 +25,57 @@ namespace CoinViewTiki.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        public ObservableRangeCollection<Grouping<string, Coin>> FilteredCoins = new ObservableRangeCollection<Grouping<string, Coin>>();
+        
 
         private ICommand _searchCommand;
 
         public ICommand SearchCommand => _searchCommand ?? new Command<string>(async (text) =>
         {
-            if (text.Length >= 1)
-            {
-                Coins.Clear();
-                FilteredCoins.Clear();
-                await GetCoinList();
-                
-                // Regex regex  =new Regex($@"{text}\w*");
-                
-                Regex regex  =new Regex($@"^{text}");
-
-                
-                // var suggestions = Coins.Where(x => x.Items.FirstOrDefault().Name.StartsWith(text));
-                var suggestions = Coins.Where(x => x.Items
-                    .Any(p => p.Name.ToLowerInvariant().StartsWith(text.ToLowerInvariant()) )).ToList();
-                
-               
-                
-                // Coins.Clear();
-                foreach (var coin in suggestions)
+            text = text ?? String.Empty;
+         
+                if (text.Length >= 1)
                 {
-                     FilteredCoinList = (from list in coin
-                        where list.Name.ToLowerInvariant().StartsWith(text.ToLowerInvariant())
-                        select list).ToList();
-                    // var coinName = coin.FirstOrDefault().Name;
-                    // // if (regex.Match(coinName).Success)
-                    // // {
-                    // //     Coins.Add(coin);
-                    // //
-                    // // }
-                    // if (Regex.IsMatch(coinName, @"\b" + text + @"\b"))
-                    // {
-                    //     Coins.Add(coin);
-                    //
-                    // }
+                    Coins.Clear();
+                    await GetCoinList();
+                
+                    var suggestions = Coins.Where(x => x.Items
+                        .Any(p => p.Name.ToLowerInvariant().StartsWith(text.ToLowerInvariant()) )).ToList();
+
+
+                    if (suggestions.Any())
+                    {
+                        foreach (var coin in suggestions)
+                        {
+                            FilteredCoinList = (from list in coin
+                                where list.Name.ToLowerInvariant().StartsWith(text.ToLowerInvariant())
+                                select list).ToList();
+                 
+                        }
+
+              
+                        var newSortedCoins = from item in FilteredCoinList
+                            orderby item.Name
+                            group item by item.Name[0].ToString().ToUpperInvariant()
+                            into itemGroup
+                            select new Grouping<string, Coin>(itemGroup.Key, itemGroup);
+                
+                        Coins.Clear();
+                        _coins.ReplaceRange(newSortedCoins);
+
+                    }
+                    else
+                    {
+                        Coins.Clear();
+                    }
+       
                 }
-                
-               var newSortedCoins = from item in FilteredCoinList
-                    orderby item.Name
-                    group item by item.Name[0].ToString().ToUpperInvariant()
-                    into itemGroup
-                    select new Grouping<string, Coin>(itemGroup.Key, itemGroup);
-                
-                Coins.Clear();
-                _coins.ReplaceRange(newSortedCoins);
-                // Coins = FilteredCoins;
-            }
-            else
-            {
-                Coins.Clear();
-                await GetCoinList();
-            }
+                else
+                {
+                    Coins.Clear();
+                    await GetCoinList();
+                }
+            
+          
         });
 
         public List<Coin> FilteredCoinList { get; set; }
@@ -108,6 +101,7 @@ namespace CoinViewTiki.ViewModels
         {
             _coinGeckoApi = coinGeckoApi;
             Coins = new ObservableRangeCollection<Grouping<string, Coin>>();
+            FilteredCoinList = new List<Coin>();
             Task.Run(async () => await GetCoinList());
         }
 
