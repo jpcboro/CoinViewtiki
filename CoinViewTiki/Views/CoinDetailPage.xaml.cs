@@ -13,15 +13,19 @@ namespace CoinViewTiki.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CoinDetailPage : ContentPage
     {
-        private CoinData _coinData;
 
-        public CoinDetailPage(CoinData coinData)
+        public CoinDetailPage()
         {
             InitializeComponent();
-            
-            BindingContext = new CoinDetailPageViewModel(coinData);
-
-
         }
+
+        // public CoinDetailPage(CoinData coinData)
+        // {
+        //     InitializeComponent();
+        //     
+        //     BindingContext = new CoinDetailPageViewModel(coinData);
+        //
+        //
+        // }
     }
 }

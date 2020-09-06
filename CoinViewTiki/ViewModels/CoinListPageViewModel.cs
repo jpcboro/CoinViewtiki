@@ -1,21 +1,30 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using CoinViewTiki.Interfaces;
 using CoinViewTiki.Models;
 using CoinViewTiki.Services;
 using MvvmHelpers;
+using Prism.Commands;
 using Prism.Navigation;
 using Xamarin.Forms;
 
 namespace CoinViewTiki
 {
-    public class MainPageViewModel : BaseViewModel, IInitialize
+    public class CoinListPageViewModel : BaseViewModel, IInitialize, INavigationAware
     {
-        private readonly ICoinGeckoAPI _coinGeckoApi;
+        private string _title;
+
+        public string Title
+        {
+            get { return _title; }
+            set { SetProperty(ref _title, value); }
+        }
+        
         private readonly INavigationService _navigationService;
+        private readonly ICoinGeckoAPIManager _coinGeckoApiManager;
         private ObservableRangeCollection<Grouping<string, Coin>> _coins;
          CoinGeckoAPIManager apiManager = new CoinGeckoAPIManager();
         public ObservableRangeCollection<Grouping<string, Coin>> Coins
@@ -24,7 +33,6 @@ namespace CoinViewTiki
             set
             {
                 _coins = value;
-                OnPropertyChanged();
             }
         }
         
@@ -34,7 +42,7 @@ namespace CoinViewTiki
         public ICommand SearchCommand => _searchCommand ?? new Command<string>(async (text) =>
         {
             IsRunning = true;
-            text = text ?? String.Empty;
+            text = text ?? string.Empty;
          
                 if (text.Length >= 1)
                 {
@@ -80,6 +88,7 @@ namespace CoinViewTiki
                 IsRunning = false;
         });
 
+        public DelegateCommand<object> ItemTappedCommand { get; set; }
         public List<Coin> FilteredCoinList { get; set; }
 
 
@@ -95,40 +104,36 @@ namespace CoinViewTiki
                     _searchText = value;
                 }
                 
-                OnPropertyChanged();
             }
         }
 
-        private bool _isRUnning = false;
-        public bool IsRunning
-        {
-            get { return _isRUnning; }
-            set
-            {
-                if (_isRUnning != value)
-                {
-                    _isRUnning = value;
-                }
-                
-                OnPropertyChanged();
-            }
-        }
+       
 
-        public MainPageViewModel(ICoinGeckoAPI coinGeckoApi,
-            INavigationService navigationService)
+        public CoinListPageViewModel(INavigationService navigationService, 
+                                     ICoinGeckoAPIManager coinGeckoApiManager)
         {
-            _coinGeckoApi = coinGeckoApi;
             _navigationService = navigationService;
+            _coinGeckoApiManager = coinGeckoApiManager;
             Coins = new ObservableRangeCollection<Grouping<string, Coin>>();
             FilteredCoinList = new List<Coin>();
+            
+            ItemTappedCommand = new DelegateCommand<object>(ItemTapped);
+        }
+
+        private async void ItemTapped(object obj)
+        {
+            var coin = obj as Coin;
+            var coinId = coin.Id;
+            
+            var navigationParams = new NavigationParameters();
+            navigationParams.Add("selectedCoin", coinId);
+            await _navigationService.NavigateAsync("CoinDetailPage", navigationParams);
         }
 
         public async Task GetCoinList()
         {
             IsRunning = true;
-            
-            // var coinList = await _coinGeckoApi.GetCoins();
-
+         
             var coinList = await apiManager.GetCoinsAsync();
 
             if (coinList != null)
@@ -144,15 +149,34 @@ namespace CoinViewTiki
 
 
             IsRunning = false;
-
-
+            
         }
 
 
         public void Initialize(INavigationParameters parameters)
         {
-            Task.Run(async () => await GetCoinList());
+            // if (!Coins.Any())
+            // {
+            //     Device.StartTimer(TimeSpan.FromSeconds(5), () =>
+            //     {
+            //         Task.Run(async () =>
+            //         {
+            //             await GetCoinList();
+            //         });
+            //
+            //         return false;
+            //     } );
+            // }
+        }
 
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public void OnNavigatedTo(INavigationParameters parameters)
+        {
+            Task.Run(async () => await GetCoinList());
         }
     }
 }

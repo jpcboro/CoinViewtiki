@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:CoinViewTiki.Behaviors"
+            Title="CoinViewTiki App"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+             x:Class="CoinViewTiki.CoinListPage">
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="0,20,0,0" />
+        </OnPlatform>
+    </ContentPage.Padding>
+    <ContentPage.Content>
+        <StackLayout>
+             <SearchBar x:Name="SearchBar"
+                    Placeholder="Search"
+                    SearchCommand="{Binding SearchCommand}"
+                    SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}"
+                    Text="{Binding SearchText, Mode=TwoWay}">
+             <SearchBar.Behaviors>
+                 <local:SearchTextChangedBehavior />
+             </SearchBar.Behaviors>
+         </SearchBar>
+         <StackLayout>
+             <ActivityIndicator HorizontalOptions="Center"
+                                IsRunning="{Binding IsRunning}"
+                                IsVisible="{Binding IsRunning}"
+                                Color="Orange"/>
+             <ListView x:Name="coinListView"
+                       ItemsSource="{Binding Coins}"
+                       IsGroupingEnabled="True"
+                       GroupDisplayBinding="{Binding Key}"
+                       GroupShortNameBinding="{Binding Key}"
+                       HasUnevenRows="True"
+                       android:ListView.IsFastScrollEnabled="True"
+                       >
+                 <ListView.Behaviors>
+                     <prism:EventToCommandBehavior EventName="ItemTapped"
+                                                   Command="{Binding ItemTappedCommand}"
+                                                   EventArgsParameterPath="Item"/>
+                 </ListView.Behaviors>
+                 <ListView.GroupHeaderTemplate>
+                     <DataTemplate>
+                         <ViewCell Height="25">
+                             <StackLayout VerticalOptions="FillAndExpand"
+                                          Padding="5"
+                                          BackgroundColor="Aquamarine">
+                                 <Label Text="{Binding Key}"
+                                        TextColor="Coral"
+                                        VerticalOptions="Center"/>
+                             </StackLayout>
+                         </ViewCell>
+                     </DataTemplate>
+                 </ListView.GroupHeaderTemplate>
+         
+                 <ListView.ItemTemplate>
+                     <DataTemplate>
+                         <TextCell Text="{Binding Name}"></TextCell>
+                     </DataTemplate>
+                 </ListView.ItemTemplate>
+         
+             </ListView>
+         </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

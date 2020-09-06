@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoinViewTiki.Interfaces;
 using CoinViewTiki.Models;
 using MonkeyCache.FileStore;
 using Refit;
@@ -9,7 +10,7 @@ using Xamarin.Essentials;
 
 namespace CoinViewTiki.Services
 {
-    public class CoinGeckoAPIManager 
+    public class CoinGeckoAPIManager : ICoinGeckoAPIManager
     {
         private readonly ICoinGeckoAPI _coinGeckoApi;
         private const string url = "https://api.coingecko.com/api/v3/coins/list";
@@ -55,8 +56,19 @@ namespace CoinViewTiki.Services
                 Console.WriteLine($"Unable to get data from server: {e}");
                 throw;
             }
+                
+        }
 
-         
+        public async Task<CoinData> GetCoinDetailAsync(string id)
+        {
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                
+            }
+
+            var coinDetail = await _coinGeckoApi.GetCoinData(id);
+           
+            return coinDetail;
         }
     }
 }

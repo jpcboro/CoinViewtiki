@@ -24,11 +24,11 @@ namespace CoinViewTiki
         {
             InitializeComponent();
             
-            apiResponse = RestService.For<ICoinGeckoAPI>("https://api.coingecko.com/");
-            
-            mainVM = new MainPageViewModel(apiResponse);
-           
-            BindingContext = mainVM;
+            // apiResponse = RestService.For<ICoinGeckoAPI>("https://api.coingecko.com/");
+            //
+            // mainVM = new MainPageViewModel(apiResponse);
+            //
+            // BindingContext = mainVM;
 
             
         }
@@ -63,7 +63,7 @@ namespace CoinViewTiki
             // coinsCollectionView.ItemsSource = Coins;
             // coinsCollectionView.IsGrouped = true;
 
-            coinListView.ItemsSource = Coins;
+            // coinListView.ItemsSource = Coins;
 
         }
 
@@ -74,7 +74,7 @@ namespace CoinViewTiki
 
             var coinData = await apiResponse.GetCoinData(selectedCoin.Id);
 
-            await Navigation.PushAsync(new CoinDetailPage(coinData));
+            // await Navigation.PushAsync(new CoinDetailPage(coinData));
 
         }
     }

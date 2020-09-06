@@ -3,53 +3,57 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              xmlns:local="clr-namespace:CoinViewTiki.Behaviors"
+             xmlns:prism="http://prismlibrary.com"
              x:Class="CoinViewTiki.MainPage">
  <ContentPage.Content>
      <StackLayout>
-         <SearchBar x:Name="SearchBar"
-                    Placeholder="Search"
-                    SearchCommand="{Binding SearchCommand}"
-                    SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}"
-                    Text="{Binding SearchText, Mode=TwoWay}">
-             <SearchBar.Behaviors>
-                 <local:SearchTextChangedBehavior />
-             </SearchBar.Behaviors>
-         </SearchBar>
-         <StackLayout>
-             <ActivityIndicator HorizontalOptions="Center"
-                                IsRunning="{Binding IsRunning}"
-                                IsVisible="{Binding IsRunning}"
-                                Color="Orange"/>
-             <ListView x:Name="coinListView"
-                       ItemsSource="{Binding Coins}"
-                       IsGroupingEnabled="True"
-                       GroupDisplayBinding="{Binding Key}"
-                       GroupShortNameBinding="{Binding Key}"
-                       HasUnevenRows="True"
-                       android:ListView.IsFastScrollEnabled="True"
-                       ItemSelected="CoinListView_OnItemSelected">
-                 <ListView.GroupHeaderTemplate>
-                     <DataTemplate>
-                         <ViewCell Height="25">
-                             <StackLayout VerticalOptions="FillAndExpand" 
-                                          Padding="5"
-                                          BackgroundColor="Aquamarine">
-                                 <Label Text="{Binding Key}" 
-                                        TextColor="Coral" 
-                                        VerticalOptions="Center"/>
-                             </StackLayout>
-                         </ViewCell>
-                     </DataTemplate>
-                 </ListView.GroupHeaderTemplate>
-
-                 <ListView.ItemTemplate>
-                     <DataTemplate>
-                         <TextCell Text="{Binding Name}"></TextCell>
-                     </DataTemplate>
-                 </ListView.ItemTemplate>
-         
-             </ListView>
-         </StackLayout>
+         <Label Text="Hello, world!"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="CenterAndExpand" />
+         <!-- <SearchBar x:Name="SearchBar" -->
+         <!--            Placeholder="Search" -->
+         <!--            SearchCommand="{Binding SearchCommand}" -->
+         <!--            SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}" -->
+         <!--            Text="{Binding SearchText, Mode=TwoWay}"> -->
+         <!--     <SearchBar.Behaviors> -->
+         <!--         <local:SearchTextChangedBehavior /> -->
+         <!--     </SearchBar.Behaviors> -->
+         <!-- </SearchBar> -->
+         <!-- <StackLayout> -->
+         <!--     <ActivityIndicator HorizontalOptions="Center" -->
+         <!--                        IsRunning="{Binding IsRunning}" -->
+         <!--                        IsVisible="{Binding IsRunning}" -->
+         <!--                        Color="Orange"/> -->
+         <!--     <ListView x:Name="coinListView" -->
+         <!--               ItemsSource="{Binding Coins}" -->
+         <!--               IsGroupingEnabled="True" -->
+         <!--               GroupDisplayBinding="{Binding Key}" -->
+         <!--               GroupShortNameBinding="{Binding Key}" -->
+         <!--               HasUnevenRows="True" -->
+         <!--               android:ListView.IsFastScrollEnabled="True" -->
+         <!--               ItemSelected="CoinListView_OnItemSelected"> -->
+         <!--         <ListView.GroupHeaderTemplate> -->
+         <!--             <DataTemplate> -->
+         <!--                 <ViewCell Height="25"> -->
+         <!--                     <StackLayout VerticalOptions="FillAndExpand"  -->
+         <!--                                  Padding="5" -->
+         <!--                                  BackgroundColor="Aquamarine"> -->
+         <!--                         <Label Text="{Binding Key}"  -->
+         <!--                                TextColor="Coral"  -->
+         <!--                                VerticalOptions="Center"/> -->
+         <!--                     </StackLayout> -->
+         <!--                 </ViewCell> -->
+         <!--             </DataTemplate> -->
+         <!--         </ListView.GroupHeaderTemplate> -->
+         <!-- -->
+         <!--         <ListView.ItemTemplate> -->
+         <!--             <DataTemplate> -->
+         <!--                 <TextCell Text="{Binding Name}"></TextCell> -->
+         <!--             </DataTemplate> -->
+         <!--         </ListView.ItemTemplate> -->
+         <!-- -->
+         <!--     </ListView> -->
+         <!-- </StackLayout> -->
          
      </StackLayout>
     

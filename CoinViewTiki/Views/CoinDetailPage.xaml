@@ -5,14 +5,26 @@
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Class="CoinViewTiki.Views.CoinDetailPage"
              >
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="0,20,0,0" />
+        </OnPlatform>
+    </ContentPage.Padding>
     <ContentPage.Content>
         <StackLayout Spacing="10" Padding="10">
-          <ffimageloading:CachedImage DownsampleToViewSize="True" 
-                                      x:Name="img" 
-                                      LoadingPlaceholder="imgPlaceholder.png"
-                                      Source="{Binding CoinDetails.image.thumb}" 
-                                      Aspect="AspectFit"
-                                     />
+            <ActivityIndicator HorizontalOptions="Center"
+                               IsRunning="{Binding IsRunning}"
+                               IsVisible="{Binding IsRunning}"
+                               Color="Orange"/>
+            <Button Text="GoBack" Command="{Binding GoBackCommand}" HorizontalOptions="Start"/> 
+            <ffimageloading:CachedImage DownsampleToViewSize="True" 
+                                        x:Name="img" 
+                                        LoadingPlaceholder="imgPlaceholder.png"
+                                        Source="{Binding CoinDetails.image.thumb}" 
+                                        HeightRequest="50"
+                                        WidthRequest="50"
+                                        Aspect="AspectFit"
+            />
           <Label x:Name="lblName" Text="{Binding CoinDetails.Name}"/>
           <Label x:Name="lblSymbol" Text="{Binding CoinDetails.Symbol}"/>
           <Label x:Name="lblPrice" Text="{Binding CoinDetails.market_data.current_price.usd, StringFormat='${0}'}"/>
