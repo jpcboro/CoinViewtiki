@@ -2,11 +2,17 @@
 
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Class="CoinViewTiki.Views.CoinDetailPage"
              >
     <ContentPage.Content>
         <StackLayout Spacing="10" Padding="10">
-          <Image x:Name="img" Source="{Binding CoinDetails.image.thumb}" Aspect="AspectFit" HeightRequest="50" WidthRequest="50"/>
+          <ffimageloading:CachedImage DownsampleToViewSize="True" 
+                                      x:Name="img" 
+                                      LoadingPlaceholder="imgPlaceholder.png"
+                                      Source="{Binding CoinDetails.image.thumb}" 
+                                      Aspect="AspectFit"
+                                     />
           <Label x:Name="lblName" Text="{Binding CoinDetails.Name}"/>
           <Label x:Name="lblSymbol" Text="{Binding CoinDetails.Symbol}"/>
           <Label x:Name="lblPrice" Text="{Binding CoinDetails.market_data.current_price.usd, StringFormat='${0}'}"/>

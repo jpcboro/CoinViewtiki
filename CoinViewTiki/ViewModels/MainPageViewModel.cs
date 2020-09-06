@@ -16,6 +16,7 @@ namespace CoinViewTiki.ViewModels
     {
         private readonly ICoinGeckoAPI _coinGeckoApi;
         private ObservableRangeCollection<Grouping<string, Coin>> _coins;
+         CoinGeckoAPIManager apiManager = new CoinGeckoAPIManager();
         public ObservableRangeCollection<Grouping<string, Coin>> Coins
         {
             get => _coins;
@@ -31,6 +32,7 @@ namespace CoinViewTiki.ViewModels
 
         public ICommand SearchCommand => _searchCommand ?? new Command<string>(async (text) =>
         {
+            IsRunning = true;
             text = text ?? String.Empty;
          
                 if (text.Length >= 1)
@@ -52,14 +54,13 @@ namespace CoinViewTiki.ViewModels
                  
                         }
 
-              
                         var newSortedCoins = from item in FilteredCoinList
                             orderby item.Name
                             group item by item.Name[0].ToString().ToUpperInvariant()
                             into itemGroup
                             select new Grouping<string, Coin>(itemGroup.Key, itemGroup);
                 
-                        Coins.Clear();
+ 
                         _coins.ReplaceRange(newSortedCoins);
 
                     }
@@ -74,8 +75,8 @@ namespace CoinViewTiki.ViewModels
                     Coins.Clear();
                     await GetCoinList();
                 }
-            
-          
+
+                IsRunning = false;
         });
 
         public List<Coin> FilteredCoinList { get; set; }
@@ -97,6 +98,21 @@ namespace CoinViewTiki.ViewModels
             }
         }
 
+        private bool _isRUnning = false;
+        public bool IsRunning
+        {
+            get { return _isRUnning; }
+            set
+            {
+                if (_isRUnning != value)
+                {
+                    _isRUnning = value;
+                }
+                
+                OnPropertyChanged();
+            }
+        }
+
         public MainPageViewModel(ICoinGeckoAPI coinGeckoApi)
         {
             _coinGeckoApi = coinGeckoApi;
@@ -107,16 +123,26 @@ namespace CoinViewTiki.ViewModels
 
         public async Task GetCoinList()
         {
-            var coinList = await _coinGeckoApi.GetCoins();
+            IsRunning = true;
             
-            var sortedCoins = from item in coinList
-                orderby item.Name
-                group item by item.Name[0].ToString().ToUpperInvariant()
-                into itemGroup
-                select new Grouping<string, Coin>(itemGroup.Key, itemGroup);
+            // var coinList = await _coinGeckoApi.GetCoins();
 
-            _coins.ReplaceRange(sortedCoins);
-            
+            var coinList = await apiManager.GetCoinsAsync();
+
+            if (coinList != null)
+            {
+                var sortedCoins = from item in coinList
+                    orderby item.Name
+                    group item by item.Name[0].ToString().ToUpperInvariant()
+                    into itemGroup
+                    select new Grouping<string, Coin>(itemGroup.Key, itemGroup);
+
+                _coins.ReplaceRange(sortedCoins);
+            }
+
+
+            IsRunning = false;
+
 
         }
         

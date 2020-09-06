@@ -15,55 +15,44 @@
                  <local:SearchTextChangedBehavior />
              </SearchBar.Behaviors>
          </SearchBar>
-         <ListView x:Name="coinListView"
-                   ItemsSource="{Binding Coins}"
-                   IsGroupingEnabled="True"
-                   GroupDisplayBinding="{Binding Key}"
-                   GroupShortNameBinding="{Binding Key}"
-                   HasUnevenRows="True"
-                   android:ListView.IsFastScrollEnabled="True"
-                   ItemSelected="CoinListView_OnItemSelected">
-             <ListView.GroupHeaderTemplate>
-                 <DataTemplate>
-                     <ViewCell Height="25">
-                         <StackLayout VerticalOptions="FillAndExpand" 
-                                      Padding="5"
-                                      BackgroundColor="Aquamarine">
-                             <Label Text="{Binding Key}" 
-                                    TextColor="Coral" 
-                                    VerticalOptions="Center"/>
-                         </StackLayout>
-                     </ViewCell>
-                 </DataTemplate>
-             </ListView.GroupHeaderTemplate>
+         <StackLayout>
+             <ActivityIndicator HorizontalOptions="Center"
+                                IsRunning="{Binding IsRunning}"
+                                IsVisible="{Binding IsRunning}"
+                                Color="Orange"/>
+             <ListView x:Name="coinListView"
+                       ItemsSource="{Binding Coins}"
+                       IsGroupingEnabled="True"
+                       GroupDisplayBinding="{Binding Key}"
+                       GroupShortNameBinding="{Binding Key}"
+                       HasUnevenRows="True"
+                       android:ListView.IsFastScrollEnabled="True"
+                       ItemSelected="CoinListView_OnItemSelected">
+                 <ListView.GroupHeaderTemplate>
+                     <DataTemplate>
+                         <ViewCell Height="25">
+                             <StackLayout VerticalOptions="FillAndExpand" 
+                                          Padding="5"
+                                          BackgroundColor="Aquamarine">
+                                 <Label Text="{Binding Key}" 
+                                        TextColor="Coral" 
+                                        VerticalOptions="Center"/>
+                             </StackLayout>
+                         </ViewCell>
+                     </DataTemplate>
+                 </ListView.GroupHeaderTemplate>
 
-             <ListView.ItemTemplate>
-                 <DataTemplate>
-                     <TextCell Text="{Binding Name}"></TextCell>
-                 </DataTemplate>
-             </ListView.ItemTemplate>
+                 <ListView.ItemTemplate>
+                     <DataTemplate>
+                         <TextCell Text="{Binding Name}"></TextCell>
+                     </DataTemplate>
+                 </ListView.ItemTemplate>
          
-         </ListView>
+             </ListView>
+         </StackLayout>
+         
      </StackLayout>
     
-     <!-- <CollectionView x:Name="coinsCollectionView" -->
-     <!--                 SelectionMode="Single" -->
-     <!--                 IsGrouped="True"> -->
-     <!--     <CollectionView.GroupHeaderTemplate> -->
-     <!--             <DataTemplate> -->
-     <!--                 <StackLayout BackgroundColor="Aquamarine" VerticalOptions="FillAndExpand"> -->
-     <!--                     <Label Text="{Binding Key}" TextColor="DarkOrange"></Label> -->
-     <!--                 </StackLayout> -->
-     <!--             </DataTemplate> -->
-     <!--         </CollectionView.GroupHeaderTemplate> -->
-     <!--     <CollectionView.ItemTemplate> -->
-     <!--         <DataTemplate> -->
-     <!--             <Grid> -->
-     <!--                 <Label Text="{Binding name}"></Label> -->
-     <!--             </Grid> -->
-     <!--         </DataTemplate> -->
-     <!--     </CollectionView.ItemTemplate> -->
-     <!--      -->
-     <!-- </CollectionView> -->
+    
  </ContentPage.Content>
 </ContentPage>
