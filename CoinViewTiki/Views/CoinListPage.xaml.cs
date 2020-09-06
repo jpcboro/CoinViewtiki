@@ -16,5 +16,12 @@ namespace CoinViewTiki
         {
             InitializeComponent();
         }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            
+            // SearchBar.Text = String.Empty;
+        }
     }
 }

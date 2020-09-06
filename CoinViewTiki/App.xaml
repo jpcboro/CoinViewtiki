@@ -4,5 +4,12 @@
              xmlns:prism="http://prismlibrary.com"
              x:Class="CoinViewTiki.App">
     <Application.Resources>
+        <ResourceDictionary>
+            <Style x:Key="listNameStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="ProximaNovaBold"/>
+                <Setter Property="TextColor" Value="Brown"/>
+                <Setter Property="FontSize" Value="30"></Setter>
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>

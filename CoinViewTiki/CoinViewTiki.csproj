@@ -22,6 +22,7 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Fonts" />
     <Folder Include="Models\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Views\" />
@@ -36,10 +37,12 @@
       <SubType>Designer</SubType>
       <Generator></Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\TestPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator></Generator>
-    </EmbeddedResource>
+    <None Remove="Fonts\proxima_nova_bold.ttf" />
+    <EmbeddedResource Include="Fonts\proxima_nova_bold.ttf" />
+    <None Remove="Fonts\proxima_nova_regular.ttf" />
+    <EmbeddedResource Include="Fonts\proxima_nova_regular.ttf" />
+    <None Remove="Fonts\proxima_nova_semibold.ttf" />
+    <EmbeddedResource Include="Fonts\proxima_nova_semibold.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Views\CoinDetailPage.xaml.cs">
@@ -47,9 +50,6 @@
     </Compile>
     <Compile Update="Views\CoinListPage.xaml.cs">
       <DependentUpon>CoinListPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\TestPage.xaml.cs">
-      <DependentUpon>TestPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

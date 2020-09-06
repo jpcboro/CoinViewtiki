@@ -7,9 +7,9 @@ using CoinViewTiki.Interfaces;
 using CoinViewTiki.Models;
 using CoinViewTiki.Services;
 using MvvmHelpers;
+using MvvmHelpers.Commands;
 using Prism.Commands;
 using Prism.Navigation;
-using Xamarin.Forms;
 
 namespace CoinViewTiki
 {
@@ -39,11 +39,10 @@ namespace CoinViewTiki
 
         private ICommand _searchCommand;
 
-        public ICommand SearchCommand => _searchCommand ?? new Command<string>(async (text) =>
+        public ICommand SearchCommand => _searchCommand ?? new Xamarin.Forms.Command<string>(async (text) =>
         {
-            IsRunning = true;
             text = text ?? string.Empty;
-         
+
                 if (text.Length >= 1)
                 {
                     Coins.Clear();
@@ -85,26 +84,19 @@ namespace CoinViewTiki
                     await GetCoinList();
                 }
 
-                IsRunning = false;
         });
 
         public DelegateCommand<object> ItemTappedCommand { get; set; }
         public List<Coin> FilteredCoinList { get; set; }
 
 
-        private string _searchText { get; set; }
+        private string _searchText;
+        
 
         public string SearchText
         {
             get { return _searchText; }
-            set
-            {
-                if (_searchText != value)
-                {
-                    _searchText = value;
-                }
-                
-            }
+            set { SetProperty(ref _searchText, value); }
         }
 
        
@@ -155,23 +147,12 @@ namespace CoinViewTiki
 
         public void Initialize(INavigationParameters parameters)
         {
-            // if (!Coins.Any())
-            // {
-            //     Device.StartTimer(TimeSpan.FromSeconds(5), () =>
-            //     {
-            //         Task.Run(async () =>
-            //         {
-            //             await GetCoinList();
-            //         });
-            //
-            //         return false;
-            //     } );
-            // }
+           
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
-            
+            SearchText = null;
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)

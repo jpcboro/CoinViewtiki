@@ -20,11 +20,9 @@ namespace CoinViewTiki
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<CoinListPage, CoinListPageViewModel>();
             containerRegistry.RegisterForNavigation<CoinDetailPage, CoinDetailPageViewModel>();
             containerRegistry.Register<ICoinGeckoAPIManager, CoinGeckoAPIManager>();
-            containerRegistry.RegisterForNavigation<TestPage, TestPageViewModel>();
         }
 
         protected override async void OnInitialized()

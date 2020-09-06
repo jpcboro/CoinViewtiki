@@ -12,11 +12,12 @@
     </ContentPage.Padding>
     <ContentPage.Content>
         <StackLayout Spacing="10" Padding="10">
+            
+            <Button Text="GoBack" Command="{Binding GoBackCommand}" HorizontalOptions="Start"/> 
             <ActivityIndicator HorizontalOptions="Center"
                                IsRunning="{Binding IsRunning}"
                                IsVisible="{Binding IsRunning}"
                                Color="Orange"/>
-            <Button Text="GoBack" Command="{Binding GoBackCommand}" HorizontalOptions="Start"/> 
             <ffimageloading:CachedImage DownsampleToViewSize="True" 
                                         x:Name="img" 
                                         LoadingPlaceholder="imgPlaceholder.png"

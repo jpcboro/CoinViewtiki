@@ -11,19 +11,7 @@ namespace CoinViewTiki.ViewModels
         private readonly INavigationService _navigationService;
 
         private readonly ICoinGeckoAPIManager _coinGeckoApiManager;
-        // private CoinData _coinDetails;
-        //
-        // public CoinData CoinDetails
-        // {
-        //     get => _coinDetails;
-        //     set
-        //     {
-        //         _coinDetails = value;
-        //         OnPropertyChanged();
-        //     }
-        //     
-        // }
-
+        
         private CoinData _coinDetails;
 
         public CoinData CoinDetails
@@ -33,11 +21,7 @@ namespace CoinViewTiki.ViewModels
         }
         
         public DelegateCommand GoBackCommand { get; set; }
-
-        // public CoinDetailPageViewModel(CoinData coinDetails)
-        // {
-        //     CoinDetails = coinDetails;
-        // }
+        
 
         public CoinDetailPageViewModel(INavigationService navigationService,
             ICoinGeckoAPIManager coinGeckoApiManager)
@@ -62,6 +46,7 @@ namespace CoinViewTiki.ViewModels
             var coinDetails = parameters["selectedCoin"] as string;
 
             await GetCoinDetails(coinDetails);
+            
             
         }
 
