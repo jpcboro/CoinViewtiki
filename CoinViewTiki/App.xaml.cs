@@ -1,4 +1,5 @@
 ﻿using System;
+using Akavache;
 using CoinViewTiki.Constants;
 using CoinViewTiki.Interfaces;
 using CoinViewTiki.Services;
@@ -30,6 +31,10 @@ namespace CoinViewTiki
             Device.SetFlags(new[] { "Brush_Experimental" });
 
             InitializeComponent();
+
+
+            Akavache.Registrations.Start("CoinViewTiki");
+
 
             await NavigationService.NavigateAsync("CoinListPage");
         }

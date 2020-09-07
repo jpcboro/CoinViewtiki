@@ -10,6 +10,8 @@ using MvvmHelpers;
 using MvvmHelpers.Commands;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
+using Xamarin.Essentials;
 
 namespace CoinViewTiki
 {
@@ -25,8 +27,10 @@ namespace CoinViewTiki
         
         private readonly INavigationService _navigationService;
         private readonly ICoinGeckoAPIManager _coinGeckoApiManager;
+        private readonly IPageDialogService _pageDialogService;
+
         private ObservableRangeCollection<Grouping<string, Coin>> _coins;
-         CoinGeckoAPIManager apiManager = new CoinGeckoAPIManager();
+        
         public ObservableRangeCollection<Grouping<string, Coin>> Coins
         {
             get => _coins;
@@ -47,29 +51,36 @@ namespace CoinViewTiki
                 {
                     Coins.Clear();
                     await GetCoinList();
-                
-                    var suggestions = Coins.Where(x => x.Items
-                        .Any(p => p.Name.ToLowerInvariant().StartsWith(text.ToLowerInvariant()) )).ToList();
 
-
-                    if (suggestions.Any())
+                    if (Coins.Any())
                     {
-                        foreach (var coin in suggestions)
-                        {
-                            FilteredCoinList = (from list in coin
-                                where list.Name.ToLowerInvariant().StartsWith(text.ToLowerInvariant())
-                                select list).ToList();
-                 
-                        }
+                        var suggestions = Coins.Where(x => x.Items
+                            .Any(p => p.Name.ToLowerInvariant().StartsWith(text.ToLowerInvariant()) )).ToList();
 
-                        var newSortedCoins = from item in FilteredCoinList
-                            orderby item.Name
-                            group item by item.Name[0].ToString().ToUpperInvariant()
-                            into itemGroup
-                            select new Grouping<string, Coin>(itemGroup.Key, itemGroup);
+
+                        if (suggestions.Any())
+                        {
+                            foreach (var coin in suggestions)
+                            {
+                                FilteredCoinList = (from list in coin
+                                    where list.Name.ToLowerInvariant().StartsWith(text.ToLowerInvariant())
+                                    select list).ToList();
+                 
+                            }
+
+                            var newSortedCoins = from item in FilteredCoinList
+                                orderby item.Name
+                                group item by item.Name[0].ToString().ToUpperInvariant()
+                                into itemGroup
+                                select new Grouping<string, Coin>(itemGroup.Key, itemGroup);
                 
  
-                        _coins.ReplaceRange(newSortedCoins);
+                            _coins.ReplaceRange(newSortedCoins);
+                        }
+                        else
+                        {
+                            Coins.Clear();
+                        }
 
                     }
                     else
@@ -98,7 +109,7 @@ namespace CoinViewTiki
         public ICommand RefreshCommand => new Command(async () =>
         {
             IsRefreshing = true;
-            await GetCoinList();
+            await GetCoinList(true);
             IsRefreshing = false;
         });
         public List<Coin> FilteredCoinList { get; set; }
@@ -116,10 +127,13 @@ namespace CoinViewTiki
        
 
         public CoinListPageViewModel(INavigationService navigationService, 
-                                     ICoinGeckoAPIManager coinGeckoApiManager)
+                                     ICoinGeckoAPIManager coinGeckoApiManager,
+                                     IPageDialogService pageDialogService)
         {
             _navigationService = navigationService;
             _coinGeckoApiManager = coinGeckoApiManager;
+            _pageDialogService = pageDialogService;
+
             Coins = new ObservableRangeCollection<Grouping<string, Coin>>();
             FilteredCoinList = new List<Coin>();
             
@@ -131,33 +145,60 @@ namespace CoinViewTiki
 
         private async void ItemTapped(object obj)
         {
+            if (isTapped)
+            {
+                return;
+            }
+
+            isTapped = true;
             var coin = obj as Coin;
             var coinId = coin.Id;
             
             var navigationParams = new NavigationParameters();
             navigationParams.Add("selectedCoin", coinId);
             await _navigationService.NavigateAsync("CoinDetailPage", navigationParams);
+
+            isTapped = false;
         }
 
-        public async Task GetCoinList()
+        private bool isTapped = false;
+        private async Task GetCoinList(bool isForceRefresh = false)
         {
-            IsRunning = true;
-         
-            var coinList = await apiManager.GetCoinsAsync();
-
-            if (coinList != null)
+            var current = Connectivity.NetworkAccess;
+            if (current == NetworkAccess.Internet)
             {
-                var sortedCoins = from item in coinList
-                    orderby item.Name
-                    group item by item.Name[0].ToString().ToUpperInvariant()
-                    into itemGroup
-                    select new Grouping<string, Coin>(itemGroup.Key, itemGroup);
+                try
+                {
+                    IsRunning = true;
+                    var coinList = await _coinGeckoApiManager.GetCoinsAsync(forceRefresh:isForceRefresh);
 
-                _coins.ReplaceRange(sortedCoins);
+                    if (coinList != null)
+                    {
+                        var sortedCoins = from item in coinList
+                            orderby item.Name
+                            group item by item.Name[0].ToString().ToUpperInvariant()
+                            into itemGroup
+                            select new Grouping<string, Coin>(itemGroup.Key, itemGroup);
+
+                        _coins.ReplaceRange(sortedCoins);
+                    }
+                    IsRunning = false;
+                }
+                catch (Exception ex)
+                {
+                    Coins.Clear();
+                    await _pageDialogService.DisplayAlertAsync("Error has occured",
+                        ex.Message,
+                        "Ok");
+                }
+               
             }
-
-
-            IsRunning = false;
+            else
+            {
+                await _pageDialogService.DisplayAlertAsync("No Internet",
+                    "Please check your internet connection.",
+                    "Ok");
+            }
             
         }
 
@@ -174,7 +215,11 @@ namespace CoinViewTiki
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            Task.Run(async () => await GetCoinList());
+            if (!Coins.Any())
+            {
+                Task.Run(async () => await GetCoinList(true));
+
+            }
         }
     }
 }
