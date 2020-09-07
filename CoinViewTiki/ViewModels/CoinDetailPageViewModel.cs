@@ -82,6 +82,7 @@ namespace CoinViewTiki.ViewModels
                 await _pageDialogService.DisplayAlertAsync("No Internet",
                     "Please check your internet connection.",
                     "Ok");
+              await  _navigationService.GoBackAsync();
             }
             
         }

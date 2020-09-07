@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Akavache;
@@ -9,6 +10,7 @@ using CoinViewTiki.Constants;
 using CoinViewTiki.Interfaces;
 using CoinViewTiki.Models;
 using MonkeyCache.FileStore;
+using Polly;
 using Prism.Services;
 using Refit;
 using Xamarin.Essentials;
@@ -66,9 +68,7 @@ namespace CoinViewTiki.Services
                     return coinsFromCache;
 
                 }
-
-                //string stringObj = await BlobCache.LocalMachine.GetObject<string>(CacheConstants.TestString);
-
+                
                 return  await GetAndSaveCoinsAsync();
 
             }
@@ -85,7 +85,23 @@ namespace CoinViewTiki.Services
 
         private async Task<List<Coin>> GetAndSaveCoinsAsync()
         {
-            List<Coin> coins = await _coinGeckoApi.GetCoins();
+            List<Coin> coins = await Policy
+                .Handle<ApiException>(exception =>
+                {
+                    Console.WriteLine($"API Exception when connection to Coin Gecko API: {exception.Message}");
+                    return true;
+                })
+                .WaitAndRetryAsync(
+                    retryCount: 3,
+                    sleepDurationProvider: retryAttempt =>
+                        TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                        onRetry: (ex, time) =>
+                        {
+                            Console.WriteLine($"Retry exception: {ex.Message}, retrying...");
+                        }
+                    )
+                .ExecuteAsync(async () => await _coinGeckoApi.GetCoins());
+                
 
             await BlobCache.LocalMachine.InsertObject(CacheConstants.AllCoinsNSList,
                coins, DateTimeOffset.Now.AddSeconds(80));
@@ -109,10 +125,23 @@ namespace CoinViewTiki.Services
 
         public async Task<CoinData> GetCoinDetailAsync(string id)
         {
-            
             try
             {
-                var coinDetail = await _coinGeckoApi.GetCoinData(id);
+                
+               
+                var coinDetail = await Policy.Handle<ApiException>(exception =>
+                    {
+                        Console.WriteLine($"API Exception when connection to Coin Gecko API: {exception.Message}");
+                        return true;
+                    })
+                    .WaitAndRetryAsync(retryCount: 3,
+                        sleepDurationProvider: retryAttempt =>
+                            TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                        onRetry: (ex, time) =>
+                        {
+                            Console.WriteLine($"Retry exception: {ex.Message}, retrying...");
+                        })
+                    .ExecuteAsync(async () => await _coinGeckoApi.GetCoinData(id));
                 
                 return coinDetail;
             }
