@@ -26,7 +26,7 @@ namespace CoinViewTiki.Services
 
         }
 
-        public async Task<List<Coin>> GetCoinsAsync(int days = 1, bool forceRefresh  = false)
+        public async Task<List<Coin>> GetCoinsAsync(int days = 1, bool forceRefresh  = true)
         {
             var coinsList = new List<Coin>();
 

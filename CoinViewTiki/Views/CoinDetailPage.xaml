@@ -5,6 +5,7 @@
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:sk="clr-namespace:Xamarin.Forms.Skeleton;assembly=Xamarin.Forms.Skeleton"
              ios:Page.UseSafeArea="false"
              x:Class="CoinViewTiki.Views.CoinDetailPage">
  
@@ -43,51 +44,80 @@
                        <Grid Grid.Row="1" Padding="0,0,0,0">
                  
                               <Frame CornerRadius="30"  
-                                                 Margin="0,40,0,0" 
-                                                 BackgroundColor="White" 
-                                                 VerticalOptions="FillAndExpand">
-                                    
-                                            <StackLayout 
-                                                   VerticalOptions="FillAndExpand" 
-                                                   BackgroundColor="Transparent" 
-                                                   Spacing="10">
+                                     Margin="0,40,0,0" 
+                                     BackgroundColor="White" 
+                                     VerticalOptions="FillAndExpand">
+                                     <StackLayout 
+                                            VerticalOptions="FillAndExpand" 
+                                            BackgroundColor="Transparent" 
+                                            Spacing="10"
+                                            sk:Skeleton.IsParent="True"
+                                            sk:Skeleton.IsBusy="{Binding IsRunning}"
+                                            sk:Skeleton.Animation="{sk:DefaultAnimation Fade}">
                                                    <StackLayout.Padding>
                                                           <OnPlatform x:TypeArguments="Thickness">
                                                                  <On Platform="Android">0,70,0,0</On>
                                                                  <On Platform="iOS">20,70,20,0</On>
                                                           </OnPlatform>
                                                    </StackLayout.Padding>
-                                                   <StackLayout Spacing="0">
+                                                   <StackLayout Spacing="0"
+                                                                sk:Skeleton.IsParent="True"
+                                                                sk:Skeleton.IsBusy="{Binding IsRunning}"
+                                                                sk:Skeleton.Animation="{sk:DefaultAnimation Fade}"
+                                                                sk:Skeleton.BackgroundColor="MediumPurple">
                                                      <Label Text="{Binding CoinDetails.Name}"
                                                             Style="{StaticResource listNameStyle}"
                                                             FontSize="25"
-                                                            TextColor="DarkSlateBlue"/>  
+                                                            TextColor="DarkSlateBlue"
+                                                            sk:Skeleton.IsBusy="{Binding IsRunning}"
+                                                            sk:Skeleton.BackgroundColor="MediumPurple"/>  
                                                      <Label Text="{Binding CoinDetails.Symbol}"
                                                             Style="{StaticResource listDetailStyle}"
-                                                            TextColor="DimGray"/> 
+                                                            TextColor="DimGray"
+                                                            sk:Skeleton.IsBusy="{Binding IsRunning}"
+                                                            sk:Skeleton.BackgroundColor="MediumPurple"/> 
                                               </StackLayout>   
                                             
-                                              <StackLayout Orientation="Horizontal" Padding="0,0,0,15">
+                                              <StackLayout Orientation="Horizontal" 
+                                                           Padding="0,0,0,15"
+                                                           sk:Skeleton.IsBusy="{Binding IsRunning}"
+                                                           sk:Skeleton.Animation="{sk:DefaultAnimation Fade}"
+                                                           sk:Skeleton.BackgroundColor="MediumPurple">
                                                      <Label Text="Current Price:"
                                                             Style="{StaticResource listDetailStyle}"
                                                             VerticalOptions="Center"
-                                                            TextColor="DimGray"/>
+                                                            TextColor="DimGray"
+                                                            sk:Skeleton.IsBusy="{Binding IsRunning}"
+                                                            sk:Skeleton.BackgroundColor="MediumPurple"/>
                                                      <Label Text="{Binding CoinDetails.market_data.current_price.usd, StringFormat='${0}'}"
                                                             Style="{StaticResource listHeaderStyle}"
                                                             FontSize="30"
-                                                            TextColor="Coral"/> 
+                                                            TextColor="Coral"
+                                                            sk:Skeleton.IsBusy="{Binding IsRunning}"
+                                                            sk:Skeleton.BackgroundColor="MediumPurple"/> 
                                               </StackLayout>
-                                                   <StackLayout Spacing="5">
+                                                   <StackLayout Spacing="5"
+                                                                sk:Skeleton.IsParent="True"
+                                                                sk:Skeleton.IsBusy="{Binding IsRunning}"
+                                                                sk:Skeleton.Animation="{sk:DefaultAnimation Fade}"
+                                                                sk:Skeleton.BackgroundColor="MediumPurple">
                                                           <Label Text="{Binding CoinDetails.Name, StringFormat='About {0}'}"
                                                                  Style="{StaticResource listNameStyle}"
-                                                                 TextColor="DimGray"/>  
+                                                                 TextColor="DimGray"
+                                                                 sk:Skeleton.IsBusy="{Binding IsRunning}"
+                                                                 sk:Skeleton.BackgroundColor="MediumPurple"/>  
                                                           
-                                                                        <ScrollView>
+                                                          <ScrollView sk:Skeleton.IsParent="True"
+                                                                      sk:Skeleton.IsBusy="{Binding IsRunning}"
+                                                                      sk:Skeleton.Animation="{sk:DefaultAnimation Fade}"
+                                                                      sk:Skeleton.BackgroundColor="MediumPurple">
                                                                         <Label Text="{Binding CoinDetails.description.en}" 
                                                                                Style="{StaticResource listNameStyle}"
                                                                                HorizontalOptions="FillAndExpand" 
                                                                                VerticalOptions="FillAndExpand"
-                                                                               TextColor="DarkGray"/>
+                                                                               TextColor="DarkGray"
+                                                                               sk:Skeleton.IsBusy="{Binding IsRunning}"
+                                                                               sk:Skeleton.BackgroundColor="MediumPurple"/>
                                                                         </ScrollView>
                                                        
                                                    </StackLayout>

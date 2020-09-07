@@ -7,6 +7,7 @@
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:sk="clr-namespace:Xamarin.Forms.Skeleton;assembly=Xamarin.Forms.Skeleton"
              ios:Page.UseSafeArea="false"
              x:Class="CoinViewTiki.CoinListPage">
     <!-- <ContentPage.Padding> -->
@@ -64,7 +65,11 @@
                        HasUnevenRows="True"
                        android:ListView.IsFastScrollEnabled="True"
                        SeparatorVisibility="Default"
-                       Margin="5,0,5,0">
+                       Margin="5,0,5,0"
+                       sk:Skeleton.IsParent="True"
+                       sk:Skeleton.IsBusy="{Binding IsRunning}"
+                       sk:Skeleton.Animation="{sk:DefaultAnimation Fade}"
+                       sk:Skeleton.BackgroundColor="White">
                  <ListView.Behaviors>
                      <prism:EventToCommandBehavior EventName="ItemTapped"
                                                    Command="{Binding ItemTappedCommand}"
@@ -74,8 +79,7 @@
                      <DataTemplate>
                          <ViewCell Height="50">
                              <StackLayout VerticalOptions="FillAndExpand"
-                                          Padding="10"
-                                          BackgroundColor="DarkViolet">
+                                          Padding="10">
                                  <Label Text="{Binding Key}"
                                         Style="{StaticResource listHeaderStyle}"
                                         TextColor="White"
@@ -87,7 +91,9 @@
                  <ListView.ItemTemplate>
                      <DataTemplate>
                          <ViewCell Height="90">
-                             <Grid Margin="0,0,0,5">
+                             <Grid Margin="0,0,0,5"
+                                   sk:Skeleton.IsBusy="{Binding IsRunning}"
+                                   sk:Skeleton.BackgroundColor="Gray">
                                  <Grid ColumnSpacing="10" Padding="5" BackgroundColor="White">
                                      <Grid.ColumnDefinitions>
                                          <ColumnDefinition Width="70"/>
