@@ -11,7 +11,17 @@
  
     <ContentPage.Content>
         <Grid>
-                <Image HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Source="listBg.png" Aspect="AspectFill"></Image>
+         
+                      <Grid.Background>
+                             <LinearGradientBrush StartPoint="0,0"
+                                                  EndPoint="1,0">
+                                    <GradientStop Color="#4E3775"
+                                                  Offset="0.1"/>
+                                    <GradientStop Color="#8750E6"
+                                                  Offset="1.0"/>
+                             </LinearGradientBrush>
+                      </Grid.Background>
+               <!-- <Image HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Source="listBg.png" Aspect="AspectFill"></Image> -->
                 <Grid Padding="0,50,0,0" RowSpacing="5">
                       <Grid.RowDefinitions>
                              <RowDefinition Height="Auto"/>
@@ -92,9 +102,9 @@
                                                      <Label Text="{Binding CoinDetails.market_data.current_price.usd, StringFormat='${0}'}"
                                                             Style="{StaticResource listHeaderStyle}"
                                                             FontSize="30"
-                                                            TextColor="Coral"
+                                                            TextColor="#74c21e"
                                                             sk:Skeleton.IsBusy="{Binding IsRunning}"
-                                                            sk:Skeleton.BackgroundColor="MediumPurple"/> 
+                                                            sk:Skeleton.BackgroundColor="#74c21e"/> 
                                               </StackLayout>
                                                    <StackLayout Spacing="5"
                                                                 sk:Skeleton.IsParent="True"
@@ -124,8 +134,6 @@
                                             
                                               
                                             </StackLayout>
-                                            
-                                     
                                      
                               </Frame>
                               <Grid VerticalOptions="Start" 
@@ -137,7 +145,7 @@
                                             CornerRadius="50" 
                                             HasShadow="False"
                                             IsClippedToBounds="True"
-                                            BackgroundColor="DarkViolet">
+                                            BackgroundColor="#8750E6">
                                             <ffimageloading:CachedImage Grid.Row="1" 
                                                                         Source="{Binding CoinDetails.image.large}" 
                                                                         Aspect="AspectFit"/>

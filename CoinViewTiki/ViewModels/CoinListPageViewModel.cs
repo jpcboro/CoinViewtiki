@@ -87,6 +87,20 @@ namespace CoinViewTiki
         });
 
         public DelegateCommand<object> ItemTappedCommand { get; set; }
+
+        private bool _isRefreshing;
+
+        public bool IsRefreshing
+        {
+            get { return _isRefreshing; }
+            set { SetProperty(ref _isRefreshing, value); }
+        }
+        public ICommand RefreshCommand => new Command(async () =>
+        {
+            IsRefreshing = true;
+            await GetCoinList();
+            IsRefreshing = false;
+        });
         public List<Coin> FilteredCoinList { get; set; }
 
 
@@ -110,7 +124,10 @@ namespace CoinViewTiki
             FilteredCoinList = new List<Coin>();
             
             ItemTappedCommand = new DelegateCommand<object>(ItemTapped);
+            
         }
+
+       
 
         private async void ItemTapped(object obj)
         {

@@ -62,6 +62,9 @@
                        IsGroupingEnabled="True"
                        GroupDisplayBinding="{Binding Key}"
                        GroupShortNameBinding="{Binding Key}"
+                       IsPullToRefreshEnabled="True"
+                       RefreshCommand="{Binding RefreshCommand}"
+                       IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
                        HasUnevenRows="True"
                        android:ListView.IsFastScrollEnabled="True"
                        SeparatorVisibility="Default"
@@ -82,7 +85,7 @@
                                           Padding="10">
                                  <Label Text="{Binding Key}"
                                         Style="{StaticResource listHeaderStyle}"
-                                        TextColor="White"
+                                        TextColor="LightSlateGray"
                                         VerticalOptions="Center"/>
                              </StackLayout>
                          </ViewCell>
