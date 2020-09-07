@@ -7,15 +7,15 @@
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="True"
+             ios:Page.UseSafeArea="false"
              x:Class="CoinViewTiki.CoinListPage">
-    <ContentPage.Padding>
-        <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="0,30,0,0" />
-        </OnPlatform>
-    </ContentPage.Padding>
+    <!-- <ContentPage.Padding> -->
+    <!--     <OnPlatform x:TypeArguments="Thickness"> -->
+    <!--         <On Platform="iOS" Value="0,30,0,0" /> -->
+    <!--     </OnPlatform> -->
+    <!-- </ContentPage.Padding> -->
     <ContentPage.Content>
-        <StackLayout Padding="0" BackgroundColor="Purple">
+        <StackLayout Padding="0">
             <StackLayout.Background>
                 <LinearGradientBrush StartPoint="0,0"
                                      EndPoint="1,0">
@@ -75,10 +75,10 @@
                          <ViewCell Height="50">
                              <StackLayout VerticalOptions="FillAndExpand"
                                           Padding="10"
-                                          BackgroundColor="#B1E3AC">
+                                          BackgroundColor="DarkViolet">
                                  <Label Text="{Binding Key}"
                                         Style="{StaticResource listHeaderStyle}"
-                                        TextColor="#5A9917"
+                                        TextColor="White"
                                         VerticalOptions="Center"/>
                              </StackLayout>
                          </ViewCell>
@@ -94,16 +94,17 @@
                                          <ColumnDefinition Width="*"/>
                                          <ColumnDefinition Width="Auto"/>
                                      </Grid.ColumnDefinitions>
-                                     <yummy:PancakeView CornerRadius="10" 
+                                     <Frame CornerRadius="20" 
                                                         IsClippedToBounds="True" 
                                                         HeightRequest="35" 
                                                         WidthRequest="35"
                                                         BackgroundColor="#74c21e"
+                                                        HasShadow="False"
                                                         Padding="10">
                                          <Label Text="{Binding Symbol}"
                                                 LineBreakMode="NoWrap"
                                                 Style="{StaticResource listSymbolStyle}"/>
-                                     </yummy:PancakeView>
+                                     </Frame>
                                      <StackLayout Grid.Column="1" Padding="0,5,0,0">
                                          <Label Text="{Binding Name}"
                                                 Style="{StaticResource listNameStyle}"/>

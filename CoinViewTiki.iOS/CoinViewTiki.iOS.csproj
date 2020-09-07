@@ -142,6 +142,8 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\imgPlaceholder.png" />
+    <BundleResource Include="Resources\left@2x.png" />
+    <BundleResource Include="Resources\left@3x.png" />
     <BundleResource Include="Resources\listBg@2x.png" />
   </ItemGroup>
 </Project>

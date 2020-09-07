@@ -3,40 +3,119 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             x:Class="CoinViewTiki.Views.CoinDetailPage"
-             >
-    <ContentPage.Padding>
-        <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="0,20,0,0" />
-        </OnPlatform>
-    </ContentPage.Padding>
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="false"
+             x:Class="CoinViewTiki.Views.CoinDetailPage">
+ 
     <ContentPage.Content>
-        <StackLayout Spacing="10" Padding="10">
-            
-            <Button Text="GoBack" Command="{Binding GoBackCommand}" HorizontalOptions="Start"/> 
-            <ActivityIndicator HorizontalOptions="Center"
-                               IsRunning="{Binding IsRunning}"
-                               IsVisible="{Binding IsRunning}"
-                               Color="Orange"/>
-            <ffimageloading:CachedImage DownsampleToViewSize="True" 
-                                        x:Name="img" 
-                                        LoadingPlaceholder="imgPlaceholder.png"
-                                        Source="{Binding CoinDetails.image.thumb}" 
-                                        HeightRequest="50"
-                                        WidthRequest="50"
-                                        Aspect="AspectFit"
-            />
-          <Label x:Name="lblName" Text="{Binding CoinDetails.Name}"/>
-          <Label x:Name="lblSymbol" Text="{Binding CoinDetails.Symbol}"/>
-          <Label x:Name="lblPrice" Text="{Binding CoinDetails.market_data.current_price.usd, StringFormat='${0}'}"/>
-          <ScrollView >
-              <Label x:Name="lblDesc" 
-                     Text="{Binding CoinDetails.description.en}" 
-                     HorizontalOptions="FillAndExpand" 
-                     VerticalOptions="FillAndExpand"/>
-          </ScrollView>
-          
+        <Grid>
+                <Image HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Source="listBg.png" Aspect="AspectFill"></Image>
+                <Grid Padding="0,50,0,0" RowSpacing="5">
+                      <Grid.RowDefinitions>
+                             <RowDefinition Height="Auto"/>
+                             <RowDefinition Height="*"/>
+                             
+                      </Grid.RowDefinitions>
+                       <Grid Grid.Row="0" Padding="20,0,20,20" RowSpacing="-10">
+                              <Grid.ColumnDefinitions>
+                                     <ColumnDefinition Width="*"/>
+                                     <ColumnDefinition Width="Auto"/>
+                                     <ColumnDefinition Width="*"/>
+                              </Grid.ColumnDefinitions>
+                              <Grid.RowDefinitions>
+                                     <RowDefinition Height="Auto"/>
+                                     <RowDefinition Height="Auto"/>
+                              </Grid.RowDefinitions>
+                              <Image Source="left.png" HorizontalOptions="Start" VerticalOptions="Center">
+                                     <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding GoBackCommand}"></TapGestureRecognizer>
+                                     </Image.GestureRecognizers>
+                              </Image>
+                              <Label Text="Coin Detail" 
+                                     FontFamily="ProximaNovaBold" 
+                                     FontSize="20" Grid.Column="1" 
+                                     HorizontalOptions="CenterAndExpand" 
+                                     VerticalOptions="Center" 
+                                     TextColor="White"/>
 
-        </StackLayout>
+                       </Grid>
+                       <Grid Grid.Row="1" Padding="0,0,0,0">
+                 
+                              <Frame CornerRadius="30"  
+                                                 Margin="0,40,0,0" 
+                                                 BackgroundColor="White" 
+                                                 VerticalOptions="FillAndExpand">
+                                    
+                                            <StackLayout 
+                                                   VerticalOptions="FillAndExpand" 
+                                                   BackgroundColor="Transparent" 
+                                                   Spacing="10">
+                                                   <StackLayout.Padding>
+                                                          <OnPlatform x:TypeArguments="Thickness">
+                                                                 <On Platform="Android">0,70,0,0</On>
+                                                                 <On Platform="iOS">20,70,20,0</On>
+                                                          </OnPlatform>
+                                                   </StackLayout.Padding>
+                                                   <StackLayout Spacing="0">
+                                                     <Label Text="{Binding CoinDetails.Name}"
+                                                            Style="{StaticResource listNameStyle}"
+                                                            FontSize="25"
+                                                            TextColor="DarkSlateBlue"/>  
+                                                     <Label Text="{Binding CoinDetails.Symbol}"
+                                                            Style="{StaticResource listDetailStyle}"
+                                                            TextColor="DimGray"/> 
+                                              </StackLayout>   
+                                            
+                                              <StackLayout Orientation="Horizontal" Padding="0,0,0,15">
+                                                     <Label Text="Current Price:"
+                                                            Style="{StaticResource listDetailStyle}"
+                                                            VerticalOptions="Center"
+                                                            TextColor="DimGray"/>
+                                                     <Label Text="{Binding CoinDetails.market_data.current_price.usd, StringFormat='${0}'}"
+                                                            Style="{StaticResource listHeaderStyle}"
+                                                            FontSize="30"
+                                                            TextColor="Coral"/> 
+                                              </StackLayout>
+                                                   <StackLayout Spacing="5">
+                                                          <Label Text="{Binding CoinDetails.Name, StringFormat='About {0}'}"
+                                                                 Style="{StaticResource listNameStyle}"
+                                                                 TextColor="DimGray"/>  
+                                                          
+                                                                        <ScrollView>
+                                                                        <Label Text="{Binding CoinDetails.description.en}" 
+                                                                               Style="{StaticResource listNameStyle}"
+                                                                               HorizontalOptions="FillAndExpand" 
+                                                                               VerticalOptions="FillAndExpand"
+                                                                               TextColor="DarkGray"/>
+                                                                        </ScrollView>
+                                                       
+                                                   </StackLayout>
+                                            
+                                              
+                                            </StackLayout>
+                                            
+                                     
+                                     
+                              </Frame>
+                              <Grid VerticalOptions="Start" 
+                                    HorizontalOptions="Center" 
+                                    Padding="0,0,0,70">
+                                     <Frame 
+                                            HeightRequest="60" 
+                                            WidthRequest="60" 
+                                            CornerRadius="50" 
+                                            HasShadow="False"
+                                            IsClippedToBounds="True"
+                                            BackgroundColor="DarkViolet">
+                                            <ffimageloading:CachedImage Grid.Row="1" 
+                                                                        Source="{Binding CoinDetails.image.large}" 
+                                                                        Aspect="AspectFit"/>
+                                     </Frame>
+                              </Grid>
+                            
+                       </Grid>
+                </Grid>
+         </Grid>
     </ContentPage.Content>
 </ContentPage>

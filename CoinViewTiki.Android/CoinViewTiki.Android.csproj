@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\imgPlaceholder.png" />
+    <AndroidResource Include="Resources\drawable\left.png" />
     <AndroidResource Include="Resources\drawable\listBg.png" />
     <AndroidResource Include="Resources\layout\Tabbar.xml" />
     <AndroidResource Include="Resources\layout\Toolbar.xml" />

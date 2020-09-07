@@ -66,9 +66,18 @@ namespace CoinViewTiki.Services
                 
             }
 
-            var coinDetail = await _coinGeckoApi.GetCoinData(id);
-           
-            return coinDetail;
+            try
+            {
+                var coinDetail = await _coinGeckoApi.GetCoinData(id);
+                
+                return coinDetail;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Unable to get data from server: {e}");
+                throw;
+            }
+            
         }
     }
 }
