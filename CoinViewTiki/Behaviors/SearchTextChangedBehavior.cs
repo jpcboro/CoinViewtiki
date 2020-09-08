@@ -1,6 +1,6 @@
 using Xamarin.Forms;
 
-namespace CoinViewTiki.Behaviors
+namespace CoinViewTiki
 {
     public class SearchTextChangedBehavior : Behavior<SearchBar>
     {

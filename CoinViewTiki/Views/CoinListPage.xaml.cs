@@ -15,6 +15,8 @@ namespace CoinViewTiki
         public CoinListPage()
         {
             InitializeComponent();
+
+            coinListView += DeselectItem;
         }
 
         protected override void OnDisappearing()

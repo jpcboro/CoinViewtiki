@@ -29,7 +29,11 @@ namespace CoinViewTiki.iOS
             CachedImageRenderer.InitImageSourceHandler();
             LoadApplication(new App(new iOSInitializer()));
 
-            return base.FinishedLaunching(app, options);
+            var result = base.FinishedLaunching(app, options);
+
+            app.KeyWindow.TintColor = UIColor.FromRGB(75, 55, 117);
+
+            return result;
         }
     }
 

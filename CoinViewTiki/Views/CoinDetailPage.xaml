@@ -21,7 +21,6 @@
                                                   Offset="1.0"/>
                              </LinearGradientBrush>
                       </Grid.Background>
-               <!-- <Image HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Source="listBg.png" Aspect="AspectFill"></Image> -->
                 <Grid Padding="0,50,0,0" RowSpacing="5">
                       <Grid.RowDefinitions>
                              <RowDefinition Height="Auto"/>
