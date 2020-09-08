@@ -79,17 +79,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\left.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\listBg.png" />
     <AndroidResource Include="Resources\drawable-ldpi\left.png" />
-    <AndroidResource Include="Resources\drawable-ldpi\listBg.png" />
     <AndroidResource Include="Resources\drawable-mdpi\left.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\listBg.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\left.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\listBg.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\left.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\listBg.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\left.png" />
-    <AndroidResource Include="Resources\drawable-xxxhdpi\listBg.png" />
     <AndroidResource Include="Resources\drawable\coinViewTikiLogo.png" />
     <AndroidResource Include="Resources\drawable\imgPlaceholder.png" />
     <AndroidResource Include="Resources\layout\Tabbar.xml" />

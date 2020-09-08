@@ -69,7 +69,6 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Renderers\CustomViewCellRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -136,9 +135,5 @@
     <BundleResource Include="Resources\imgPlaceholder.png" />
     <BundleResource Include="Resources\left@2x.png" />
     <BundleResource Include="Resources\left@3x.png" />
-    <BundleResource Include="Resources\listBg@2x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Renderers\" />
   </ItemGroup>
 </Project>
