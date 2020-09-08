@@ -11,6 +11,7 @@ using MvvmHelpers.Commands;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+using Prism.Services.Dialogs;
 using Xamarin.Essentials;
 
 namespace CoinViewTiki
@@ -27,7 +28,7 @@ namespace CoinViewTiki
         
         private readonly INavigationService _navigationService;
         private readonly ICoinGeckoAPIManager _coinGeckoApiManager;
-        private readonly IPageDialogService _pageDialogService;
+        private readonly IAlertDialogService _alertDialogService;
 
         private ObservableRangeCollection<Grouping<string, Coin>> _coins;
         
@@ -85,7 +86,10 @@ namespace CoinViewTiki
                     }
                     else
                     {
-                        Coins.Clear();
+                        //offline or an error occured in fetching coins
+                        //clear search
+                        SearchText = string.Empty;
+                      
                     }
        
                 }
@@ -128,11 +132,11 @@ namespace CoinViewTiki
 
         public CoinListPageViewModel(INavigationService navigationService, 
                                      ICoinGeckoAPIManager coinGeckoApiManager,
-                                     IPageDialogService pageDialogService)
+                                     IAlertDialogService alertDialogService)
         {
             _navigationService = navigationService;
             _coinGeckoApiManager = coinGeckoApiManager;
-            _pageDialogService = pageDialogService;
+            _alertDialogService = alertDialogService;
 
             Coins = new ObservableRangeCollection<Grouping<string, Coin>>();
             FilteredCoinList = new List<Coin>();
@@ -187,17 +191,18 @@ namespace CoinViewTiki
                 catch (Exception ex)
                 {
                     Coins.Clear();
-                    await _pageDialogService.DisplayAlertAsync("Error has occured",
-                        ex.Message,
-                        "Ok");
+                    
+                    _alertDialogService.ShowAlertMessage(title: "Error",
+                        message: $"Something went wrong: {ex.Message} ");
+                  
                 }
                
             }
             else
             {
-                await _pageDialogService.DisplayAlertAsync("No Internet",
-                    "Please check your internet connection.",
-                    "Ok");
+                _alertDialogService.ShowAlertMessage(title: "No internet",
+                    message: "Please check your internet connection and try again.");
+
             }
             
         }
@@ -218,7 +223,7 @@ namespace CoinViewTiki
             if (!Coins.Any())
             {
                 Task.Run(async () => await GetCoinList(true));
-
+               
             }
         }
     }

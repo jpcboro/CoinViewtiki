@@ -24,6 +24,9 @@ namespace CoinViewTiki
             containerRegistry.RegisterForNavigation<CoinListPage, CoinListPageViewModel>();
             containerRegistry.RegisterForNavigation<CoinDetailPage, CoinDetailPageViewModel>();
             containerRegistry.Register<ICoinGeckoAPIManager, CoinGeckoAPIManager>();
+            containerRegistry.Register<IAlertDialogService, AlertDialogService>();
+            containerRegistry.RegisterDialog<AlertDialog, AlertDialogViewModel>();
+            
         }
 
         protected override async void OnInitialized()

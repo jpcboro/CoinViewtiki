@@ -5,6 +5,7 @@ using CoinViewTiki.Models;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+using Prism.Services.Dialogs;
 using Xamarin.Essentials;
 
 namespace CoinViewTiki.ViewModels
@@ -14,7 +15,7 @@ namespace CoinViewTiki.ViewModels
         private readonly INavigationService _navigationService;
 
         private readonly ICoinGeckoAPIManager _coinGeckoApiManager;
-        private readonly IPageDialogService _pageDialogService;
+        private readonly IAlertDialogService _alertDialogService;
 
         private CoinData _coinDetails;
 
@@ -29,12 +30,13 @@ namespace CoinViewTiki.ViewModels
 
         public CoinDetailPageViewModel(INavigationService navigationService,
             ICoinGeckoAPIManager coinGeckoApiManager,
-            IPageDialogService pageDialogService
-            )
+            IPageDialogService pageDialogService,
+            IDialogService dialogService,
+            IAlertDialogService alertDialogService)
         {
             _navigationService = navigationService;
             _coinGeckoApiManager = coinGeckoApiManager;
-            _pageDialogService = pageDialogService;
+            _alertDialogService = alertDialogService;
             GoBackCommand = new DelegateCommand(GoBack);
         }
 
@@ -59,7 +61,6 @@ namespace CoinViewTiki.ViewModels
 
         private async Task GetCoinDetails(string coinDetails)
         {
-            
             var current = Connectivity.NetworkAccess;
             if (current == NetworkAccess.Internet)
             {
@@ -71,17 +72,17 @@ namespace CoinViewTiki.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    await _pageDialogService.DisplayAlertAsync("Error has occured",
-                        ex.Message,
-                        "Ok");
+                    _alertDialogService.ShowAlertMessage(title: "Error has occured",
+                        message: ex.Message);
+                 
                 }
                
             }
             else
             {
-                await _pageDialogService.DisplayAlertAsync("No Internet",
-                    "Please check your internet connection.",
-                    "Ok");
+                 _alertDialogService.ShowAlertMessage(title: "No internet",
+                    message: "Please check your internet connection and try again.");
+               
               await  _navigationService.GoBackAsync();
             }
             

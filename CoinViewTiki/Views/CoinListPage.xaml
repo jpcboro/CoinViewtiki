@@ -26,12 +26,22 @@
                                   Offset="1.0"/>
                 </LinearGradientBrush>
             </StackLayout.Background>
-            <StackLayout Padding="0,50,0,0">
-                <Label Text="Coin ViewTiki" 
+            <StackLayout Padding="0,80,0,0"
+                         Orientation="Horizontal"
+                         HorizontalOptions="CenterAndExpand"
+                         Spacing="15">
+            
+                <Image Source="coinViewTikiLogo.png"
+                       HeightRequest="35"
+                       WidthRequest="35"
+                       Aspect="AspectFit"/>
+                <Label Text="All Coins" 
                        FontFamily="ProximaNovaBold" 
-                       FontSize="27"
-                       HorizontalOptions="CenterAndExpand" 
-                       VerticalOptions="FillAndExpand" TextColor="White"/>
+                       FontSize="35"
+                       HorizontalOptions="Start" 
+                       VerticalOptions="Center" 
+                       TextColor="White"/>
+ 
             </StackLayout>
             
             <StackLayout Padding="0,10,0,0">
