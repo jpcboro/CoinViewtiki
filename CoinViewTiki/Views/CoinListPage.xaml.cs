@@ -16,14 +16,18 @@ namespace CoinViewTiki
         {
             InitializeComponent();
 
-            coinListView += DeselectItem;
+            coinListView.ItemSelected += DeselectItem;
+        }
+
+        private void DeselectItem(object sender, SelectedItemChangedEventArgs e)
+        {
+            ((ListView)sender).SelectedItem = null;
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            
-            // SearchBar.Text = String.Empty;
+  
         }
     }
 }
