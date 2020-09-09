@@ -142,6 +142,9 @@
     <BundleResource Include="Resources\CoinViewTiki_Logo_PNG%401x.png" />
     <BundleResource Include="Resources\CoinViewTiki_Logo_PNG%402x.png" />
     <BundleResource Include="Resources\CoinViewTiki_Logo_PNG%403x.png" />
+    <BundleResource Include="Resources\CoinViewTikiLogoAndTitle%401x.png" />
+    <BundleResource Include="Resources\CoinViewTikiLogoAndTitle%402x.png" />
+    <BundleResource Include="Resources\CoinViewTikiLogoAndTitle%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets.xcassets\splashBGIOS3.imageset\" />

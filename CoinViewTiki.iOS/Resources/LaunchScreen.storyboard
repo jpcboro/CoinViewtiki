@@ -22,32 +22,18 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splashBGIOS3.png" translatesAutoresizingMaskIntoConstraints="NO" id="Fuu-Af-vQT">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CoinViewTiki" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iiY-6I-VHJ">
-                                <rect key="frame" x="115" y="499" width="224" height="151"/>
-                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="32"/>
-                                <color key="textColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CoinViewTiki_Logo_PNG.png" translatesAutoresizingMaskIntoConstraints="NO" id="1EC-6X-Tla">
-                                <rect key="frame" x="48" y="194" width="318" height="300"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="o0X-7r-Jso"/>
-                                </constraints>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CoinViewTikiLogoAndTitle.png" translatesAutoresizingMaskIntoConstraints="NO" id="24v-0R-hdA">
+                                <rect key="frame" x="59.5" y="262.5" width="295.5" height="371.5"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="iiY-6I-VHJ" firstAttribute="leading" secondItem="yd7-JS-zBw" secondAttribute="leadingMargin" constant="95" id="1I5-vc-wXl"/>
-                            <constraint firstItem="1EC-6X-Tla" firstAttribute="leading" secondItem="yd7-JS-zBw" secondAttribute="leadingMargin" constant="28" id="AWZ-hL-Qkl"/>
+                            <constraint firstItem="24v-0R-hdA" firstAttribute="centerY" secondItem="yd7-JS-zBw" secondAttribute="centerY" id="1FB-qh-wTQ"/>
                             <constraint firstItem="Fuu-Af-vQT" firstAttribute="leading" secondItem="yd7-JS-zBw" secondAttribute="leading" id="BTQ-GM-Y1D"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="iiY-6I-VHJ" secondAttribute="trailing" constant="55" id="JAp-yx-plj"/>
+                            <constraint firstItem="24v-0R-hdA" firstAttribute="centerX" secondItem="yd7-JS-zBw" secondAttribute="centerX" id="Ec5-3Y-dNi"/>
                             <constraint firstItem="Fuu-Af-vQT" firstAttribute="top" secondItem="yd7-JS-zBw" secondAttribute="top" id="OXh-wy-pms"/>
-                            <constraint firstItem="9ZL-r4-8FZ" firstAttribute="top" secondItem="iiY-6I-VHJ" secondAttribute="bottom" constant="212" id="YyT-Sc-cnj"/>
-                            <constraint firstItem="1EC-6X-Tla" firstAttribute="top" secondItem="Y8P-hJ-Z43" secondAttribute="bottom" constant="150" id="eHy-FV-KBe"/>
                             <constraint firstAttribute="trailing" secondItem="Fuu-Af-vQT" secondAttribute="trailing" id="gZY-A6-mPG"/>
                             <constraint firstAttribute="bottom" secondItem="Fuu-Af-vQT" secondAttribute="bottom" id="oVl-s5-Mdf"/>
-                            <constraint firstItem="1EC-6X-Tla" firstAttribute="centerX" secondItem="yd7-JS-zBw" secondAttribute="centerX" id="xrI-1b-8yS"/>
-                            <constraint firstItem="iiY-6I-VHJ" firstAttribute="top" secondItem="1EC-6X-Tla" secondAttribute="bottom" constant="5" id="zuR-Es-ull"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -57,7 +43,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="CoinViewTiki_Logo_PNG.png" width="512" height="512"/>
+        <image name="CoinViewTikiLogoAndTitle.png" width="295.5" height="371.5"/>
         <image name="splashBGIOS3.png" width="918.5" height="918.5"/>
     </resources>
 </document>
