@@ -74,7 +74,7 @@ namespace CoinViewTiki.ViewModels
                 {
                     _alertDialogService.ShowAlertMessage(title: "Error has occured",
                         message: ex.Message);
-                 
+                    await  _navigationService.GoBackAsync();
                 }
                
             }

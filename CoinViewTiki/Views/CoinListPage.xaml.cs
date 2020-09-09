@@ -23,11 +23,6 @@ namespace CoinViewTiki
         {
             ((ListView)sender).SelectedItem = null;
         }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-  
-        }
+        
     }
 }

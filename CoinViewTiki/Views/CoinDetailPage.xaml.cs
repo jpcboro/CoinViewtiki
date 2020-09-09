@@ -18,14 +18,6 @@ namespace CoinViewTiki.Views
         {
             InitializeComponent();
         }
-
-        // public CoinDetailPage(CoinData coinData)
-        // {
-        //     InitializeComponent();
-        //     
-        //     BindingContext = new CoinDetailPageViewModel(coinData);
-        //
-        //
-        // }
+        
     }
 }

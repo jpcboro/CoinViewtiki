@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using CoinViewTiki.Interfaces;
 using Prism.Services.Dialogs;
+using Xamarin.Forms;
 
 namespace CoinViewTiki.Services
 {
@@ -20,7 +21,11 @@ namespace CoinViewTiki.Services
                 {"message", message}
             };
            
-            _dialogService.ShowDialog("AlertDialog", parameters);
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                _dialogService.ShowDialog("AlertDialog", parameters);
+
+            });
             
         }
     }
