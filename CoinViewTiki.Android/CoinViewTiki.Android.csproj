@@ -71,6 +71,7 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SplashActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -78,14 +79,21 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\coin_view_tiki_logo_and_title.png" />
     <AndroidResource Include="Resources\drawable-hdpi\left.png" />
     <AndroidResource Include="Resources\drawable-ldpi\left.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\coin_view_tiki_logo_and_title.png" />
     <AndroidResource Include="Resources\drawable-mdpi\left.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\coin_view_tiki_logo_and_title.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\left.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\coin_view_tiki_logo_and_title.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\left.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\coin_view_tiki_logo_and_title.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\left.png" />
+    <AndroidResource Include="Resources\drawable\bg_gradient.xml" />
     <AndroidResource Include="Resources\drawable\coinViewTikiLogo.png" />
     <AndroidResource Include="Resources\drawable\imgPlaceholder.png" />
+    <AndroidResource Include="Resources\drawable\splash_screen.xml" />
     <AndroidResource Include="Resources\layout\Tabbar.xml" />
     <AndroidResource Include="Resources\layout\Toolbar.xml" />
     <AndroidResource Include="Resources\values\styles.xml" />
