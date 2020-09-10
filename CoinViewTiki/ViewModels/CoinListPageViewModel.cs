@@ -239,16 +239,6 @@ namespace CoinViewTiki
 
         public void Initialize(INavigationParameters parameters)
         {
-           
-        }
-
-        public void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            SearchText = null;
-        }
-
-        public void OnNavigatedTo(INavigationParameters parameters)
-        {
             if (!Coins.Any())
             {
                 if (_connectivity.IsConnectedToInternet())
@@ -265,6 +255,16 @@ namespace CoinViewTiki
 
                 }
             }
+        }
+
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            SearchText = null;
+        }
+
+        public void OnNavigatedTo(INavigationParameters parameters)
+        {
+           
            
         }
     }
