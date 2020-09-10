@@ -29,6 +29,7 @@ namespace CoinViewTiki
         private readonly INavigationService _navigationService;
         private readonly ICoinGeckoAPIManager _coinGeckoApiManager;
         private readonly IAlertDialogService _alertDialogService;
+        private readonly IConnectivity _connectivity;
 
         private ObservableRangeCollection<Grouping<string, Coin>> _coins;
         
@@ -44,62 +45,62 @@ namespace CoinViewTiki
 
         private ICommand _searchCommand;
 
-        public ICommand SearchCommand => _searchCommand ?? new Xamarin.Forms.Command<string>(async (text) =>
+        public DelegateCommand<string> SearchCommand => 
+            new DelegateCommand<string>(
+                async (text) => await SearchTextAsync(text));
+     
+
+        public async Task SearchTextAsync(string text)
         {
             text = text ?? string.Empty;
 
-                if (text.Length >= 1)
+            if (text.Length >= 1)
+            {
+                Coins.Clear();
+                await GetCoinList();
+
+                if (Coins.Any())
                 {
-                    Coins.Clear();
-                    await GetCoinList();
+                    var suggestions = Coins.Where(x => x.Items
+                        .Any(p => p.Name.ToLowerInvariant().StartsWith(text.ToLowerInvariant()))).ToList();
 
-                    if (Coins.Any())
+
+                    if (suggestions.Any())
                     {
-                        var suggestions = Coins.Where(x => x.Items
-                            .Any(p => p.Name.ToLowerInvariant().StartsWith(text.ToLowerInvariant()) )).ToList();
-
-
-                        if (suggestions.Any())
+                        foreach (var coin in suggestions)
                         {
-                            foreach (var coin in suggestions)
-                            {
-                                FilteredCoinList = (from list in coin
-                                    where list.Name.ToLowerInvariant().StartsWith(text.ToLowerInvariant())
-                                    select list).ToList();
-                 
-                            }
-
-                            var newSortedCoins = from item in FilteredCoinList
-                                orderby item.Name
-                                group item by item.Name[0].ToString().ToUpperInvariant()
-                                into itemGroup
-                                select new Grouping<string, Coin>(itemGroup.Key, itemGroup);
-                
- 
-                            _coins.ReplaceRange(newSortedCoins);
-                        }
-                        else
-                        {
-                            Coins.Clear();
+                            FilteredCoinList = (from list in coin
+                                where list.Name.ToLowerInvariant().StartsWith(text.ToLowerInvariant())
+                                select list).ToList();
                         }
 
+                        var newSortedCoins = from item in FilteredCoinList
+                            orderby item.Name
+                            group item by item.Name[0].ToString().ToUpperInvariant()
+                            into itemGroup
+                            select new Grouping<string, Coin>(itemGroup.Key, itemGroup);
+
+
+                        _coins.ReplaceRange(newSortedCoins);
                     }
                     else
                     {
-                        //offline or an error occured in fetching coins
-                        //clear search
-                        SearchText = string.Empty;
-                      
+                        Coins.Clear();
                     }
-       
                 }
                 else
                 {
-                    Coins.Clear();
-                    await GetCoinList();
+                    //offline or an error occured in fetching coins
+                    //clear search
+                    SearchText = string.Empty;
                 }
-
-        });
+            }
+            else
+            {
+                Coins.Clear();
+                await GetCoinList();
+            }
+        }
 
         public DelegateCommand<object> ItemTappedCommand { get; set; }
 
@@ -132,11 +133,13 @@ namespace CoinViewTiki
 
         public CoinListPageViewModel(INavigationService navigationService, 
                                      ICoinGeckoAPIManager coinGeckoApiManager,
-                                     IAlertDialogService alertDialogService)
+                                     IAlertDialogService alertDialogService,
+                                     IConnectivity connectivity)
         {
             _navigationService = navigationService;
             _coinGeckoApiManager = coinGeckoApiManager;
             _alertDialogService = alertDialogService;
+            _connectivity = connectivity;
 
             Coins = new ObservableRangeCollection<Grouping<string, Coin>>();
             FilteredCoinList = new List<Coin>();
@@ -168,8 +171,7 @@ namespace CoinViewTiki
         private bool isTapped = false;
         private async Task GetCoinList(bool isForceRefresh = false)
         {
-            var current = Connectivity.NetworkAccess;
-            if (current == NetworkAccess.Internet)
+            if (_connectivity.IsConnectedToInternet())
             {
                 try
                 {

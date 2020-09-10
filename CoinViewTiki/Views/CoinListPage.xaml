@@ -8,6 +8,7 @@
              xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              xmlns:sk="clr-namespace:Xamarin.Forms.Skeleton;assembly=Xamarin.Forms.Skeleton"
+             AutomationId="CoinListPageID"
              ios:Page.UseSafeArea="false"
              x:Class="CoinViewTiki.CoinListPage">
  
@@ -31,7 +32,8 @@
                        HeightRequest="35"
                        WidthRequest="35"
                        Aspect="AspectFit"/>
-                <Label Text="All Coins" 
+                <Label 
+                       Text="All Coins" 
                        FontFamily="ProximaNovaBold" 
                        FontSize="35"
                        HorizontalOptions="Start" 
@@ -64,6 +66,7 @@
                                             IsVisible="{Binding IsRunning}"
                                             Color="Orange"/>
              <ListView x:Name="coinListView"
+                       AutomationId="CoinListView"
                        ItemsSource="{Binding Coins}"
                        IsGroupingEnabled="True"
                        GroupDisplayBinding="{Binding Key}"
@@ -99,7 +102,7 @@
                  </ListView.GroupHeaderTemplate>
                  <ListView.ItemTemplate>
                      <DataTemplate>
-                         <ViewCell Height="90">
+                         <ViewCell AutomationId="CoinListViewCell" Height="90">
                              <Grid Margin="0,0,0,5"
                                    sk:Skeleton.IsBusy="{Binding IsRunning}"
                                    sk:Skeleton.BackgroundColor="Gray">

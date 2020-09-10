@@ -26,7 +26,7 @@ namespace CoinViewTiki
             containerRegistry.Register<ICoinGeckoAPIManager, CoinGeckoAPIManager>();
             containerRegistry.Register<IAlertDialogService, AlertDialogService>();
             containerRegistry.RegisterDialog<AlertDialog, AlertDialogViewModel>();
-            
+            containerRegistry.Register<IConnectivity, ConnectivityImplementation>();
         }
 
         protected override async void OnInitialized()
