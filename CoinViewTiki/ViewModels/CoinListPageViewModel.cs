@@ -56,9 +56,18 @@ namespace CoinViewTiki
 
             if (text.Length >= 1)
             {
-                Coins.Clear();
-                await GetCoinList();
 
+                if (!_coinsCachedPresent)
+                {
+                    await RefreshCoinsList();
+                }
+                else
+                {
+                    await GetCoinList();
+
+                }
+              
+            
                 if (Coins.Any())
                 {
                     var suggestions = Coins.Where(x => x.Items
@@ -92,6 +101,7 @@ namespace CoinViewTiki
                 {
                     //offline or an error occured in fetching coins
                     //clear search
+                   
                     SearchText = string.Empty;
                 }
             }
@@ -113,10 +123,26 @@ namespace CoinViewTiki
         }
         public ICommand RefreshCommand => new Command(async () =>
         {
-            IsRefreshing = true;
-            await GetCoinList(true);
-            IsRefreshing = false;
+            await RefreshCoinsList();
         });
+
+        private async Task RefreshCoinsList()
+        {
+            IsRefreshing = true;
+
+            if (_connectivity.IsConnectedToInternet())
+            {
+                await GetCoinList(isForceRefresh: true);
+            }
+            else
+            {
+                _alertDialogService.ShowAlertMessage(title: "No internet",
+                    message: "Please check your internet connection and try again.");
+            }
+
+            IsRefreshing = false;
+        }
+
         public List<Coin> FilteredCoinList { get; set; }
 
 
@@ -169,46 +195,47 @@ namespace CoinViewTiki
         }
 
         private bool isTapped = false;
+        private bool _coinsCachedPresent = false;
+
         private async Task GetCoinList(bool isForceRefresh = false)
         {
-            if (_connectivity.IsConnectedToInternet())
+            List<Coin> coinList;
+            try
             {
-                try
+                IsRunning = true;
+
+                coinList = await _coinGeckoApiManager.GetCoinsAsync(forceRefresh:isForceRefresh);
+
+                if (coinList != null)
                 {
-                    IsRunning = true;
-                    var coinList = await _coinGeckoApiManager.GetCoinsAsync(forceRefresh:isForceRefresh);
+                    _coinsCachedPresent = true;
+                    var sortedCoins = from item in coinList
+                        orderby item.Name
+                        group item by item.Name[0].ToString().ToUpperInvariant()
+                        into itemGroup
+                        select new Grouping<string, Coin>(itemGroup.Key, itemGroup);
 
-                    if (coinList != null)
-                    {
-                        var sortedCoins = from item in coinList
-                            orderby item.Name
-                            group item by item.Name[0].ToString().ToUpperInvariant()
-                            into itemGroup
-                            select new Grouping<string, Coin>(itemGroup.Key, itemGroup);
-
-                        _coins.ReplaceRange(sortedCoins);
-                    }
-                    IsRunning = false;
+                    _coins.ReplaceRange(sortedCoins);
                 }
-                catch (Exception ex)
+                else
                 {
-                    Coins.Clear();
+                    _coinsCachedPresent = false;
+                }
+
+                IsRunning = false;  
+            }
+            catch (Exception ex)
+            {
+                Coins.Clear();
                     
-                    _alertDialogService.ShowAlertMessage(title: "Error",
-                        message: $"Something went wrong: {ex.Message} ");
-                  
-                }
-               
-            }
-            else
-            {
-                _alertDialogService.ShowAlertMessage(title: "No internet",
-                    message: "Please check your internet connection and try again.");
+                _alertDialogService.ShowAlertMessage(title: "Error",
+                    message: $"Something went wrong: {ex.Message} ");
 
+                IsRunning = false;
             }
+
             
         }
-
 
         public void Initialize(INavigationParameters parameters)
         {
@@ -224,9 +251,21 @@ namespace CoinViewTiki
         {
             if (!Coins.Any())
             {
-                Task.Run(async () => await GetCoinList(true));
-               
+                if (_connectivity.IsConnectedToInternet())
+                {
+                    Task.Run(async () => await RefreshCoinsList());
+
+                }
+                else
+                {
+                    _alertDialogService.ShowAlertMessage("No Internet Connection Detected",
+                        "Please connect to internet and refresh. App will now use device cache if it is present.");
+
+                    Task.Run(async () => await GetCoinList(isForceRefresh: false));
+
+                }
             }
+           
         }
     }
 }
