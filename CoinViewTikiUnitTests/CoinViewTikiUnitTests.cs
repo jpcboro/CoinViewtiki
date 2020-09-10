@@ -7,6 +7,7 @@ using CoinViewTiki.Models;
 using CoinViewTiki.Services;
 using FluentAssertions;
 using Prism.Navigation;
+using Prism.Services;
 using Xunit;
 
 namespace CoinViewTikiUnitTests
@@ -19,6 +20,8 @@ namespace CoinViewTikiUnitTests
         private CoinListPageViewModel _coinListVM;
         private MockConnectivity _mockConnectivity;
         private INavigationParameters _navigationParameters;
+        private IPageDialogService _pageDialogService;
+        
         
         public CoinViewTikiUnitTests()
         {
@@ -28,7 +31,9 @@ namespace CoinViewTikiUnitTests
             _coinListVM = new CoinListPageViewModel(_navigationService,
                                                     _coinGeckoApiManager, 
                                                     _alertDialogService,
-                                                    _mockConnectivity);
+                                                    _pageDialogService,
+                                                    _mockConnectivity
+                                                    );
         }
         
        [Fact]
@@ -37,15 +42,6 @@ namespace CoinViewTikiUnitTests
             List<Coin> listCoins = new List<Coin>();
             listCoins = await _coinGeckoApiManager.GetCoinsAsync();
             listCoins.Should().NotBeEmpty();
-        } 
-        
-        [Fact]
-        public async Task Init_CoinsListCanBeLoaded()
-        {
-            var mockNavigationParams = new NavigationParameters();
-            _coinListVM.Initialize(mockNavigationParams);
-            Thread.Sleep(6000);
-            _coinListVM.Coins.Should().NotBeNull();
         } 
         
         [Fact]

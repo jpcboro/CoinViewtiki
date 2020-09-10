@@ -1,18 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CoinViewTiki.Interfaces;
 using CoinViewTiki.Models;
 using CoinViewTiki.Services;
 using MvvmHelpers;
-using MvvmHelpers.Commands;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using Prism.Services.Dialogs;
 using Xamarin.Essentials;
+using Xamarin.Forms;
+using Command = MvvmHelpers.Commands.Command;
 
 namespace CoinViewTiki
 {
@@ -29,6 +31,7 @@ namespace CoinViewTiki
         private readonly INavigationService _navigationService;
         private readonly ICoinGeckoAPIManager _coinGeckoApiManager;
         private readonly IAlertDialogService _alertDialogService;
+        private readonly IPageDialogService _pageDialogService;
         private readonly IConnectivity _connectivity;
 
         private ObservableRangeCollection<Grouping<string, Coin>> _coins;
@@ -160,11 +163,13 @@ namespace CoinViewTiki
         public CoinListPageViewModel(INavigationService navigationService, 
                                      ICoinGeckoAPIManager coinGeckoApiManager,
                                      IAlertDialogService alertDialogService,
+                                    IPageDialogService pageDialogService,
                                      IConnectivity connectivity)
         {
             _navigationService = navigationService;
             _coinGeckoApiManager = coinGeckoApiManager;
             _alertDialogService = alertDialogService;
+            _pageDialogService = pageDialogService;
             _connectivity = connectivity;
 
             Coins = new ObservableRangeCollection<Grouping<string, Coin>>();
@@ -239,6 +244,16 @@ namespace CoinViewTiki
 
         public void Initialize(INavigationParameters parameters)
         {
+          
+        }
+
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            SearchText = null;
+        }
+
+        public async void OnNavigatedTo(INavigationParameters parameters)
+        {
             if (!Coins.Any())
             {
                 if (_connectivity.IsConnectedToInternet())
@@ -248,24 +263,14 @@ namespace CoinViewTiki
                 }
                 else
                 {
-                    _alertDialogService.ShowAlertMessage("No Internet Connection Detected",
-                        "Please connect to internet and refresh. App will now use device cache if it is present.");
+                   await _pageDialogService.DisplayAlertAsync("No Internet Connection Detected", "Please connect your device to an internet service and refresh. App will now use device cache if it is present.", "Ok");
 
                     Task.Run(async () => await GetCoinList(isForceRefresh: false));
 
+
                 }
+                
             }
-        }
-
-        public void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            SearchText = null;
-        }
-
-        public void OnNavigatedTo(INavigationParameters parameters)
-        {
-           
-           
         }
     }
 }
