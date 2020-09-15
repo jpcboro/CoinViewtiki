@@ -58,6 +58,10 @@ namespace CoinViewTikiUnitTests
             CoinData coinData = new CoinData();
             coinData =  await _coinGeckoApiManager.GetCoinDetailAsync("0-5x-long-algorand-token");
             coinData.Name.Should().Be("0.5X Long Algorand Token");
+            coinData.Symbol.Should().Be("algohalf");
+            coinData.image.Should().NotBeNull();
+            coinData.description.Should().NotBeNull();
+            coinData.market_data.current_price.usd.Should().BeGreaterOrEqualTo(0);
         }
 
         [Fact]
