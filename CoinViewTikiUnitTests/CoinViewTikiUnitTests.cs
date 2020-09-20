@@ -45,10 +45,26 @@ namespace CoinViewTikiUnitTests
         } 
         
         [Fact]
+        public async Task CoinsMarketUSDListCanBeLoadedViaApiManagerTest()
+        {
+            List<MarketUSDCoin> listCoins = new List<MarketUSDCoin>();
+            listCoins = await _coinGeckoApiManager.GetCoinsViaUSDMarketAsync();
+            listCoins.Should().NotBeEmpty();
+        } 
+        
+        [Fact]
         public async Task CoinsListShouldContainBitcoin()
         {
             List<Coin> listCoins = new List<Coin>();
              listCoins =  await _coinGeckoApiManager.GetCoinsAsync();
+            listCoins.Should().Contain(x => x.Name.ToLower() == "bitcoin");
+        }
+        
+        [Fact]
+        public async Task CoinsMarketUSDListShouldContainBitcoin()
+        {
+            List<MarketUSDCoin> listCoins = new List<MarketUSDCoin>();
+            listCoins =  await _coinGeckoApiManager.GetCoinsViaUSDMarketAsync();
             listCoins.Should().Contain(x => x.Name.ToLower() == "bitcoin");
         }
         

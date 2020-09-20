@@ -81,6 +81,86 @@ namespace CoinViewTiki.Services
            
         }
 
+        public async Task<List<MarketUSDCoin>> GetCoinsViaUSDMarketAsync(int days = 1, bool forceRefresh = false)
+        {
+            if (forceRefresh)
+            {
+                await BlobCache.LocalMachine.InvalidateObject<List<MarketUSDCoin>>(CacheConstants.AllCoinsUSDList);
+                
+            }
+            
+            var coinsFromCache = new List<MarketUSDCoin>();
+
+            try
+            {
+
+                coinsFromCache = await BlobCache.LocalMachine
+                    .GetAndFetchLatest<List<MarketUSDCoin>>(key: CacheConstants.AllCoinsUSDList, 
+                        GetAndSaveMarketUSDCoinsAsync, fetchPredicate: offset =>
+                    {
+                        var elapsed = DateTimeOffset.Now - offset;
+                        return elapsed > new TimeSpan(days: days,
+                            hours: 0,
+                            minutes: 0,
+                            seconds: 0);
+
+                    });
+
+
+                if (coinsFromCache != null)
+                {
+                    return coinsFromCache;
+
+                }
+
+                return await GetAndSaveMarketUSDCoinsAsync();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Unable to get data from server: {e}");
+
+                throw;
+            }
+        }
+
+
+        private async Task<List<MarketUSDCoin>> GetAndSaveMarketUSDCoinsAsync()
+        {
+            try
+            {
+                List<MarketUSDCoin> coins = await Policy
+                    .Handle<HttpRequestException>(exception =>
+                    {
+                        Console.WriteLine($"API Exception when connection to Coin Gecko API: {exception.Message}");
+                        return true;
+                    })
+                    .WaitAndRetryAsync(
+                        retryCount: 3,
+                        sleepDurationProvider: retryAttempt =>
+                            TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                        onRetry: (ex, time) =>
+                        {
+                            Console.WriteLine($"Retry exception: {ex.Message}, retrying...");
+                        }
+                    )
+                    .ExecuteAsync(async () => await _coinGeckoApi.GetCoinsByUSDMarket());
+                
+
+                await BlobCache.LocalMachine.InsertObject(CacheConstants.AllCoinsUSDList,
+                    coins, DateTimeOffset.Now.AddSeconds(80));
+
+               
+                return coins;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unable to get data from server: {ex.Message}");
+                throw;
+            }
+
+        }
+        
         private async Task<List<Coin>> GetAndSaveCoinsAsync()
         {
             try
