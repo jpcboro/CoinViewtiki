@@ -34,9 +34,9 @@ namespace CoinViewTiki
         private readonly IPageDialogService _pageDialogService;
         private readonly IConnectivity _connectivity;
 
-        private ObservableRangeCollection<Grouping<string, Coin>> _coins;
+        private ObservableRangeCollection<Grouping<string, MarketUSDCoin>> _coins;
         
-        public ObservableRangeCollection<Grouping<string, Coin>> Coins
+        public ObservableRangeCollection<Grouping<string, MarketUSDCoin>> Coins
         {
             get => _coins;
             set
@@ -90,7 +90,7 @@ namespace CoinViewTiki
                             orderby item.Name
                             group item by item.Name[0].ToString().ToUpperInvariant()
                             into itemGroup
-                            select new Grouping<string, Coin>(itemGroup.Key, itemGroup);
+                            select new Grouping<string, MarketUSDCoin>(itemGroup.Key, itemGroup);
 
 
                         _coins.ReplaceRange(newSortedCoins);
@@ -146,7 +146,7 @@ namespace CoinViewTiki
             IsRefreshing = false;
         }
 
-        public List<Coin> FilteredCoinList { get; set; }
+        public List<MarketUSDCoin> FilteredCoinList { get; set; }
 
 
         private string _searchText;
@@ -172,8 +172,8 @@ namespace CoinViewTiki
             _pageDialogService = pageDialogService;
             _connectivity = connectivity;
 
-            Coins = new ObservableRangeCollection<Grouping<string, Coin>>();
-            FilteredCoinList = new List<Coin>();
+            Coins = new ObservableRangeCollection<Grouping<string, MarketUSDCoin>>();
+            FilteredCoinList = new List<MarketUSDCoin>();
             
             ItemTappedCommand = new DelegateCommand<object>(ItemTapped);
             
@@ -204,12 +204,12 @@ namespace CoinViewTiki
 
         private async Task GetCoinList(bool isForceRefresh = false)
         {
-            List<Coin> coinList;
+            List<MarketUSDCoin> coinList;
             try
             {
                 IsRunning = true;
 
-                coinList = await _coinGeckoApiManager.GetCoinsAsync(forceRefresh:isForceRefresh);
+                coinList = await _coinGeckoApiManager.GetCoinsViaUSDMarketAsync(forceRefresh:isForceRefresh);
 
                 if (coinList != null)
                 {
@@ -218,7 +218,7 @@ namespace CoinViewTiki
                         orderby item.Name
                         group item by item.Name[0].ToString().ToUpperInvariant()
                         into itemGroup
-                        select new Grouping<string, Coin>(itemGroup.Key, itemGroup);
+                        select new Grouping<string, MarketUSDCoin>(itemGroup.Key, itemGroup);
 
                     _coins.ReplaceRange(sortedCoins);
                 }

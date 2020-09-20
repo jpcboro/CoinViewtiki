@@ -8,6 +8,7 @@
              xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              xmlns:sk="clr-namespace:Xamarin.Forms.Skeleton;assembly=Xamarin.Forms.Skeleton"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              AutomationId="CoinListPageID"
              ios:Page.UseSafeArea="false"
              x:Class="CoinViewTiki.CoinListPage">
@@ -116,12 +117,15 @@
                                                         IsClippedToBounds="True" 
                                                         HeightRequest="35" 
                                                         WidthRequest="35"
-                                                        BackgroundColor="#74c21e"
+                                                        BackgroundColor="#3ee67b"
                                                         HasShadow="False"
                                                         Padding="10">
-                                         <Label Text="{Binding Symbol}"
-                                                LineBreakMode="NoWrap"
-                                                Style="{StaticResource listSymbolStyle}"/>
+                                         <ffimageloading:CachedImage
+                                                                     Source="{Binding Image}" 
+                                                                     Aspect="AspectFit"/>
+                                         <!-- <Label Text="{Binding Symbol}" -->
+                                         <!--        LineBreakMode="NoWrap" -->
+                                         <!--        Style="{StaticResource listSymbolStyle}"/> -->
                                      </Frame>
                                      <StackLayout Grid.Column="1" Padding="0,5,0,0">
                                          <Label Text="{Binding Name}"
