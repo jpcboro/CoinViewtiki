@@ -12,8 +12,7 @@
  
     <ContentPage.Content>
         <Grid>
-         
-                      <Grid.Background>
+               <Grid.Background>
                              <LinearGradientBrush StartPoint="0,0"
                                                   EndPoint="1,0">
                                     <GradientStop Color="#4E3775"
@@ -38,11 +37,17 @@
                                      <RowDefinition Height="Auto"/>
                                      <RowDefinition Height="Auto"/>
                               </Grid.RowDefinitions>
-                              <Image Source="left.png" HorizontalOptions="Start" VerticalOptions="Center">
-                                     <Image.GestureRecognizers>
+                              <StackLayout HorizontalOptions="Start" 
+                                           WidthRequest="50" 
+                                           HeightRequest="50">
+                                     <StackLayout.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding GoBackCommand}"></TapGestureRecognizer>
-                                     </Image.GestureRecognizers>
-                              </Image>
+                                     </StackLayout.GestureRecognizers>
+                                     <Image Source="left.png" 
+                                            HorizontalOptions="StartAndExpand" 
+                                            VerticalOptions="Start" />
+                              </StackLayout>
+                             
                               <Label Text="Coin Detail" 
                                      FontFamily="ProximaNovaBold" 
                                      FontSize="20" Grid.Column="1" 
@@ -122,6 +127,7 @@
                                                                       sk:Skeleton.Animation="{sk:DefaultAnimation Fade}"
                                                                       sk:Skeleton.BackgroundColor="MediumPurple">
                                                                         <Label Text="{Binding CoinDetails.description.en}" 
+                                                                               TextType="Html"
                                                                                Style="{StaticResource listNameStyle}"
                                                                                HorizontalOptions="FillAndExpand" 
                                                                                VerticalOptions="FillAndExpand"
@@ -131,10 +137,7 @@
                                                                         </ScrollView>
                                                        
                                                    </StackLayout>
-                                            
-                                              
-                                            </StackLayout>
-                                     
+                                     </StackLayout>
                               </Frame>
                               <Grid VerticalOptions="Start" 
                                     HorizontalOptions="Center" 

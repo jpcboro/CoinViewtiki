@@ -44,15 +44,16 @@
             </StackLayout>
             
             <StackLayout Padding="0,10,0,0">
-                <Frame CornerRadius="40"  
-                       BackgroundColor="White" 
-                       HorizontalOptions="CenterAndExpand" 
-                       VerticalOptions="StartAndExpand" 
-                       HeightRequest="50" 
+                <Frame CornerRadius="40"
+                       BackgroundColor="White"
+                       HorizontalOptions="CenterAndExpand"
+                       VerticalOptions="StartAndExpand"
+                       HeightRequest="50"
                        Margin="10,0,10,0"
                        HasShadow="True">
                     <SearchBar x:Name="SearchBar"
                                Placeholder="Search"
+                               ios:SearchBar.SearchBarStyle="Minimal"
                                SearchCommand="{Binding SearchCommand}"
                                SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}"
                                Text="{Binding SearchText, Mode=TwoWay}">
@@ -61,28 +62,44 @@
                         </SearchBar.Behaviors>
                     </SearchBar>
                 </Frame>
+                
+                <!-- <SearchBar x:Name="SearchBar" -->
+                <!--            ios:SearchBar.SearchBarStyle="Minimal" -->
+                <!--             -->
+                <!--            TextColor="Azure" -->
+                <!--            Placeholder="Search" -->
+                <!--            SearchCommand="{Binding SearchCommand}" -->
+                <!--            SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}" -->
+                <!--            Text="{Binding SearchText, Mode=TwoWay}"> -->
+                <!--     <SearchBar.Behaviors> -->
+                <!--         <local:SearchTextChangedBehavior /> -->
+                <!--     </SearchBar.Behaviors> -->
+                <!-- </SearchBar> -->
               
                          <ActivityIndicator HorizontalOptions="Center"
                                             IsRunning="{Binding IsRunning}"
                                             IsVisible="{Binding IsRunning}"
                                             Color="Orange"/>
-             <ListView x:Name="coinListView"
-                       AutomationId="CoinListView"
-                       ItemsSource="{Binding Coins}"
-                       IsGroupingEnabled="True"
-                       GroupDisplayBinding="{Binding Key}"
-                       GroupShortNameBinding="{Binding Key}"
-                       IsPullToRefreshEnabled="True"
-                       RefreshCommand="{Binding RefreshCommand}"
-                       IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
-                       HasUnevenRows="True"
-                       android:ListView.IsFastScrollEnabled="True"
-                       SeparatorVisibility="Default"
-                       Margin="5,0,5,0"
-                       sk:Skeleton.IsParent="True"
-                       sk:Skeleton.IsBusy="{Binding IsRunning}"
-                       sk:Skeleton.Animation="{sk:DefaultAnimation Fade}"
-                       sk:Skeleton.BackgroundColor="White">
+                <Frame CornerRadius="30" 
+                       Margin="0,0,0,-20"
+                       Padding="0,30,0,-5">
+                     <ListView x:Name="coinListView"
+                          AutomationId="CoinListView"
+                          ItemsSource="{Binding Coins}"
+                          IsGroupingEnabled="True"
+                          GroupDisplayBinding="{Binding Key}"
+                          GroupShortNameBinding="{Binding Key}"
+                          IsPullToRefreshEnabled="True"
+                          RefreshCommand="{Binding RefreshCommand}"
+                          IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+                          HasUnevenRows="True"
+                          android:ListView.IsFastScrollEnabled="True"
+                          SeparatorVisibility="Default"
+                          Margin="5,0,5,0"
+                          sk:Skeleton.IsParent="True"
+                          sk:Skeleton.IsBusy="{Binding IsRunning}"
+                          sk:Skeleton.Animation="{sk:DefaultAnimation Fade}"
+                          sk:Skeleton.BackgroundColor="White">
                  <ListView.Behaviors>
                      <prism:EventToCommandBehavior EventName="ItemTapped"
                                                    Command="{Binding ItemTappedCommand}"
@@ -142,6 +159,8 @@
                  </ListView.ItemTemplate>
          
              </ListView>
+                </Frame>
+               
          </StackLayout>
         </StackLayout>
           

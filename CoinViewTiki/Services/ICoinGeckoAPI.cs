@@ -10,7 +10,7 @@ namespace CoinViewTiki.Services
         [Get("/api/v3/coins/list")]
         Task<List<Coin>> GetCoins();
         
-        [Get("/api/v3/coins/markets?vs_currency=usd")]
+        [Get("/api/v3/coins/markets?vs_currency=usd&per_page=250")]
         Task<List<MarketUSDCoin>> GetCoinsByUSDMarket();
 
         [Get("/api/v3/coins/{id}")]

@@ -6,6 +6,8 @@ using CoinViewTiki.Interfaces;
 using CoinViewTiki.Models;
 using CoinViewTiki.Services;
 using FluentAssertions;
+using Moq;
+using Prism.Common;
 using Prism.Navigation;
 using Prism.Services;
 using Xunit;
@@ -17,17 +19,18 @@ namespace CoinViewTikiUnitTests
         private ICoinGeckoAPIManager _coinGeckoApiManager;
         private IAlertDialogService _alertDialogService;
         private INavigationService _navigationService;
-        private CoinListPageViewModel _coinListVM;
-        private MockConnectivity _mockConnectivity;
-        private INavigationParameters _navigationParameters;
         private IPageDialogService _pageDialogService;
-        
+        private MockConnectivity _mockConnectivity;
+        private CoinListPageViewModel _coinListVM;
+
         
         public CoinViewTikiUnitTests()
         {
             _coinGeckoApiManager = new CoinGeckoAPIManager();
+            _alertDialogService = new Mock<IAlertDialogService>().Object;
+            _navigationService = new Mock<INavigationService>().Object;
+            _pageDialogService = new Mock<IPageDialogService>().Object;
             _mockConnectivity = new MockConnectivity();
-            
             _coinListVM = new CoinListPageViewModel(_navigationService,
                                                     _coinGeckoApiManager, 
                                                     _alertDialogService,
@@ -36,13 +39,6 @@ namespace CoinViewTikiUnitTests
                                                     );
         }
         
-       [Fact]
-        public async Task CoinsListCanBeLoadedViaApiManagerTest()
-        {
-            List<Coin> listCoins = new List<Coin>();
-            listCoins = await _coinGeckoApiManager.GetCoinsAsync();
-            listCoins.Should().NotBeEmpty();
-        } 
         
         [Fact]
         public async Task CoinsMarketUSDListCanBeLoadedViaApiManagerTest()
@@ -52,13 +48,6 @@ namespace CoinViewTikiUnitTests
             listCoins.Should().NotBeEmpty();
         } 
         
-        [Fact]
-        public async Task CoinsListShouldContainBitcoin()
-        {
-            List<Coin> listCoins = new List<Coin>();
-             listCoins =  await _coinGeckoApiManager.GetCoinsAsync();
-            listCoins.Should().Contain(x => x.Name.ToLower() == "bitcoin");
-        }
         
         [Fact]
         public async Task CoinsMarketUSDListShouldContainBitcoin()
@@ -91,17 +80,11 @@ namespace CoinViewTikiUnitTests
         [Fact]
         public async Task SearchShouldContainBitcoin()
         {
-
             await _coinListVM.SearchTextAsync("Bitcoin");
-
             var coins = _coinListVM.Coins;
-
             coins.Should().NotBeEmpty();
         }
 
-        
-        
-        
-        
+  
     }
 }

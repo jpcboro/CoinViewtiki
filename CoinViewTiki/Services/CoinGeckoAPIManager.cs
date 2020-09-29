@@ -23,7 +23,6 @@ namespace CoinViewTiki.Services
 
         private readonly ICoinGeckoAPI _coinGeckoApi;
         private readonly IBlobCache _blobCache;
-        private const string url = "https://api.coingecko.com/api/v3/coins/list";
         private const string baseUrl = "https://api.coingecko.com/";
         public bool IsBusy { get; set; } = false;
 
@@ -36,51 +35,6 @@ namespace CoinViewTiki.Services
 
         }
         
-        public async Task<List<Coin>> GetCoinsAsync(int days = 1, bool forceRefresh  = true)
-        {
-            if (forceRefresh)
-            {
-                await BlobCache.LocalMachine.InvalidateObject<List<Coin>>(CacheConstants.AllCoinsNSList);
-                
-            }
-            
-            var coinsFromCache = new List<Coin>();
-
-            try
-            {
-                
-                coinsFromCache = await BlobCache.LocalMachine.GetAndFetchLatest<List<Coin>>(
-                    CacheConstants.AllCoinsNSList,
-                    GetAndSaveCoinsAsync, offset =>
-                    {
-                        var elapsed = DateTimeOffset.Now - offset;
-                        return elapsed > new TimeSpan(days: days,
-                            hours: 0,
-                            minutes: 0,
-                            seconds: 0);
-                    }
-                );
-
-
-                if (coinsFromCache != null)
-                {
-                    return coinsFromCache;
-
-                }
-
-                return await GetAndSaveCoinsAsync();
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Unable to get data from server: {e}");
-
-                throw;
-            }
-
-           
-        }
-
         public async Task<List<MarketUSDCoin>> GetCoinsViaUSDMarketAsync(int days = 1, bool forceRefresh = false)
         {
             if (forceRefresh)
