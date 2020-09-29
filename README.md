@@ -4,8 +4,8 @@ Xamarin Forms app showing cryptocurrency prices via CoinGecko API
 <img width="707" height="352" src="https://i.imgur.com/fzpk7zd.png">
 </p>
 
-* uses Prism and DryIoC for iOC container
-* ReFit for REST library
+* Prism.Forms and DryIoC for framework and iOC container
+* Refit for REST library
 * Akavache for caching
 * Polly for retrying connections
 * Xamarin.Forms.Skeleton for loading
