@@ -1,4 +1,7 @@
 # CoinViewtiki
+![Sample image for CoinViewTiki]
+(https://github.com/jpcboro/CoinViewtiki/blob/master/CoinViewTikiSampleImage.jpg)
+
 Xamarin Forms app showing cryptocurrency prices via CoinGecko API
 - uses Prism and DryIoC for iOC container
 - ReFit for REST library
