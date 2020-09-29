@@ -1,5 +1,5 @@
 # CoinViewtiki
-![Sample image for CoinViewTiki]
+![Screenshot]
 (/sample.png)
 
 Xamarin Forms app showing cryptocurrency prices via CoinGecko API
